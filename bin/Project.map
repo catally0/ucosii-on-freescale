@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "H:\OneDrive\Projects\LIN driver\ucosii-on-freescale\bin\Project.abs"
+PROGRAM "H:\OneDrive\Projects\LIN driver\ucosii\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -13,13 +13,14 @@ Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 FILE SECTION
 ---------------------------------------------------------------------------------------------
 MC9S12XEP100.c.o                        Model: BANKED,        Lang: ANSI-C
+main.c.o                                Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+rtshc12.c.o (ansixbi.lib)               Model: BANKED,        Lang: ANSI-C
+xgate.cxgate.o                          Model: Unknown Model, Lang: ANSI-C
 FCONV.C.o (ansixb.lib)                  Model: BANKED,        Lang: ANSI-C
 FMUL.C.o (ansixb.lib)                   Model: BANKED,        Lang: ANSI-C
 FREGS.C.o (ansixb.lib)                  Model: BANKED,        Lang: ANSI-C
-rtshc12.c.o (ansixb.lib)                Model: BANKED,        Lang: ANSI-C
 VREGS.C.o (ansixb.lib)                  Model: BANKED,        Lang: ANSI-C
-main.c.o                                Model: BANKED,        Lang: ANSI-C
 app_hooks.c.o                           Model: BANKED,        Lang: ANSI-C
 app_probe.c.o                           Model: BANKED,        Lang: ANSI-C
 bsp.c.o                                 Model: BANKED,        Lang: ANSI-C
@@ -30,7 +31,6 @@ probe_rs232_ba.s.o                      Model: BANKED,        Lang: Assembler
 probe_rs232_os.c.o                      Model: BANKED,        Lang: ANSI-C
 probe_rs232c.c.o                        Model: BANKED,        Lang: ANSI-C
 vectors_s12xep.c.o                      Model: BANKED,        Lang: ANSI-C
-xgate.cxgate.o                          Model: Unknown Model, Lang: ANSI-C
 cpu_a.s.o                               Model: BANKED,        Lang: Assembler
 os_core.c.o                             Model: BANKED,        Lang: ANSI-C
 os_cpu_a.s.o                            Model: BANKED,        Lang: Assembler
@@ -48,30 +48,32 @@ os_tmr.c.o                              Model: BANKED,        Lang: ANSI-C
 STARTUP SECTION
 ---------------------------------------------------------------------------------------------
 Entry point: 0xC000 (_Startup)
-_startupData is allocated at 0xC00B and uses 6 Bytes
+_startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     2
   _Range   pZeroOut       0x2100     4848
                           0xF81100     2
-  _Copy    *toCopyDownBeg 0xC618
+  _Copy    *toCopyDownBeg 0xC627
 } _startupData;
 
 *********************************************************************************************
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                             11     R     0xC000     0xC00A   ROM_C000
-.startData                        70     R     0xC00B     0xC050   ROM_C000
-.rodata                          256     R     0xC051     0xC150   ROM_C000
-.rodata1                          89     R     0xC151     0xC1A9   ROM_C000
-NON_BANKED                      1134     R     0xC1AA     0xC617   ROM_C000
-.copy                              2     R     0xC618     0xC619   ROM_C000
-.text                           5492     R   0xFE8000   0xFE9573   PAGE_FE
+.init                             15     R     0xC000     0xC00E   ROM_C000
+.startData                        81     R     0xC00F     0xC05F   ROM_C000
+.rodata                          256     R     0xC060     0xC15F   ROM_C000
+.rodata1                          89     R     0xC160     0xC1B8   ROM_C000
+NON_BANKED                      1134     R     0xC1B9     0xC626   ROM_C000
+.copy                              2     R     0xC627     0xC628   ROM_C000
+.text                           5567     R   0xFE8000   0xFE95BE   PAGE_FE
 XGATE_VECTORS                    452     R   0xE08800   0xE089C3   PAGE_E0
 XGATE_CODE                        28     R   0xE089C4   0xE089DF   PAGE_E0
 .stack                           256   R/W     0x2000     0x20FF   RAM
 SHARED_DATA                        2   R/W     0x2100     0x2101   RAM
 XGATE_DATA                         2   R/W   0xF81100   0xF81101   RAM_F8
+XGATE_STK_L                        2   N/I   0xF8107E   0xF8107F   RAM_XGATE_STK_L
+XGATE_STK_H                        2   N/I   0xF810FE   0xF810FF   RAM_XGATE_STK_H
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -813,12 +815,12 @@ XGATE_DATA                         2   R/W   0xF81100   0xF81101   RAM_F8
 .abs_section_ff10                240     R     0xFF10     0xFFFF   .absSeg738
 .bss                            1088   R/W     0x2102     0x2541   RAM
 .common                         3758   R/W     0x2542     0x33EF   RAM
-cpu_a.s._SEC000000                 8     R   0xFE9574   0xFE957B   PAGE_FE
+cpu_a.s._SEC000000                 8     R   0xFE95BF   0xFE95C6   PAGE_FE
 
 Summary of section sizes per section type:
-READ_ONLY (R):        1E66 (dec:     7782)
+READ_ONLY (R):        1EC0 (dec:     7872)
 READ_WRITE (R/W):     13F2 (dec:     5106)
-NO_INIT (N/I):         383 (dec:      899)
+NO_INIT (N/I):         387 (dec:      903)
 
 *********************************************************************************************
 VECTOR-ALLOCATION SECTION
@@ -974,8 +976,8 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _MPUDESC5                                  11F       1       1       0   .abs_section_11f
      _IVBR                                      121       1       1       0   .abs_section_121
      _INT_XGPRIO                                126       1       1       0   .abs_section_126
-     _INT_CFADDR                                127       1       1       1   .abs_section_127
-     _INT_CFDATA0                               128       1       1       1   .abs_section_128
+     _INT_CFADDR                                127       1       1       2   .abs_section_127
+     _INT_CFDATA0                               128       1       1       2   .abs_section_128
      _INT_CFDATA1                               129       1       1       0   .abs_section_129
      _INT_CFDATA2                               12A       1       1       0   .abs_section_12a
      _INT_CFDATA3                               12B       1       1       0   .abs_section_12b
@@ -1389,7 +1391,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _PTFRR                                     37F       1       1       0   .abs_section_37f
      _XGCHID                                    382       1       1       0   .abs_section_382
      _XGCHPL                                    383       1       1       0   .abs_section_383
-     _XGISPSEL                                  385       1       1       0   .abs_section_385
+     _XGISPSEL                                  385       1       1       3   .abs_section_385
      _XGCCR                                     39D       1       1       0   .abs_section_39d
      _TIM_TIOS                                  3D0       1       1       0   .abs_section_3d0
      _TIM_CFORC                                 3D1       1       1       0   .abs_section_3d1
@@ -1540,8 +1542,8 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _PITCNT6                                   362       2       2       0   .abs_section_362
      _PITLD7                                    364       2       2       0   .abs_section_364
      _PITCNT7                                   366       2       2       0   .abs_section_366
-     _XGMCTL                                    380       2       2       1   .abs_section_380
-     _XGISP31                                   386       2       2       1   .abs_section_386
+     _XGMCTL                                    380       2       2       2   .abs_section_380
+     _XGISP31                                   386       2       2       4   .abs_section_386
      _XGIF_7F_70                                388       2       2       0   .abs_section_388
      _XGIF_6F_60                                38A       2       2       0   .abs_section_38a
      _XGIF_5F_50                                38C       2       2       0   .abs_section_38c
@@ -1550,7 +1552,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _XGIF_2F_20                                392       2       2       0   .abs_section_392
      _XGIF_1F_10                                394       2       2       0   .abs_section_394
      _XGIF_0F_00                                396       2       2       0   .abs_section_396
-     _XGSWT                                     398       2       2       1   .abs_section_398
+     _XGSWT                                     398       2       2       2   .abs_section_398
      _XGSEM                                     39A       2       2       0   .abs_section_39a
      _XGPC                                      39E       2       2       0   .abs_section_39e
      _XGR1                                      3A2       2       2       0   .abs_section_3a2
@@ -1570,104 +1572,115 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _TIM_TC6                                   3EC       2       2       0   .abs_section_3ec
      _TIM_TC7                                   3EE       2       2       0   .abs_section_3ee
      _TIM_PACNT                                 3F2       2       2       0   .abs_section_3f2
+MODULE:                 -- main.c.o --
+- PROCEDURES:
+     SetupXGATE                              FE8000      35      53       2   .text       
+     main                                    FE8035      49      73       2   .text       
+     AppTaskStart                            FE807E      48      72       3   .text       
+- VARIABLES:
+     STRING.Start.Task.1                       C160       B      11       1   .rodata1    
+     AppTaskStartStk                           2102     200     512       2   .bss        
+     shared_counter                            2100       2       2       2   SHARED_DATA 
+     XGATE_STACK_L                           F8107E       2       2       1   XGATE_STK_L 
+     XGATE_STACK_H                           F810FE       2       2       1   XGATE_STK_H 
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    FE8000      29      41       2   .text       
-     _Startup                                  C000       B      11       1   .init       
+     Init                                    FE80C6      3C      60       2   .text       
+     _Startup                                  C000       F      15       1   .init       
 - VARIABLES:
-     _startupData                              C00B       6       6       3   .startData  
+     _startupData                              C00F       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          2100       0       0       1               
+MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
+- PROCEDURES:
+     _BSHL                                     C1B9       8       8       3   NON_BANKED  
+     _LCMP                                     C1C1       A      10       1   NON_BANKED  
+     _LINC                                     C1CB       5       5      11   NON_BANKED  
+     _LDEC                                     C1D0       8       8       1   NON_BANKED  
+     _LMUL                                     C1D8      27      39       1   NON_BANKED  
+     _LMULU16x32                               C1FF       F      15       2   NON_BANKED  
+     _lDivMod                                  C20E      B9     185       1   NON_BANKED  
+     _LDIVU                                    C2C7       E      14       3   NON_BANKED  
+     _CASE_DIRECT_BYTE                         C2D5       5       5       1   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C2DA      14      20       5   NON_BANKED  
+     _CASE_SEARCH_8_BYTE                       C2EE      1A      26       1   NON_BANKED  
+     _FPCMP                                    C308       8       8       1   NON_BANKED  
+- VARIABLES:
+MODULE:                 -- xgate.cxgate.o --
+- PROCEDURES:
+     __X_SoftwareTrigger0_Handler            E089C4      18      24       1   XGATE_CODE  
+     __X_ErrorHandler                        E089DC       4       4     112   XGATE_CODE  
+- VARIABLES:
+     MyData                                  F81100       2       2       1   XGATE_DATA  
+     XGATE_VectorTable                       E08800     1C4     452       2   XGATE_VECTORS
 MODULE:                 -- FCONV.C.o (ansixb.lib) --
 - PROCEDURES:
-     F_FRLONGK                                 C1AA      1E      30       1   NON_BANKED  
-     _FUFLOAT                                  C1C8      12      18       3   NON_BANKED  
+     F_FRLONGK                                 C310      1E      30       1   NON_BANKED  
+     _FUFLOAT                                  C32E      12      18       3   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- FMUL.C.o (ansixb.lib) --
 - PROCEDURES:
-     F_DIVKL                                   C1DA      84     132       1   NON_BANKED  
-     _FDIV                                     C25E      1E      30       2   NON_BANKED  
+     F_DIVKL                                   C340      84     132       1   NON_BANKED  
+     _FDIV                                     C3C4      1E      30       2   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- FREGS.C.o (ansixb.lib) --
 - PROCEDURES:
-     F_PULK                                    C27C      15      21       1   NON_BANKED  
-     F_PULL                                    C291      15      21       1   NON_BANKED  
-     F_PSHK                                    C2A6      13      19       2   NON_BANKED  
-     F_CLRK                                    C2B9       B      11       1   NON_BANKED  
-     F_MAXK                                    C2C4       9       9       2   NON_BANKED  
-     F_NORMK                                   C2CD      37      55       1   NON_BANKED  
-- VARIABLES:
-MODULE:                 -- rtshc12.c.o (ansixb.lib) --
-- PROCEDURES:
-     _BSHL                                     C304       8       8       3   NON_BANKED  
-     _LCMP                                     C30C       A      10       1   NON_BANKED  
-     _LINC                                     C316       5       5      11   NON_BANKED  
-     _LDEC                                     C31B       8       8       1   NON_BANKED  
-     _LMUL                                     C323      27      39       1   NON_BANKED  
-     _LMULU16x32                               C34A       F      15       2   NON_BANKED  
-     _lDivMod                                  C359      B9     185       1   NON_BANKED  
-     _LDIVU                                    C412       E      14       3   NON_BANKED  
-     _CASE_DIRECT_BYTE                         C420       5       5       1   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C425      14      20       5   NON_BANKED  
-     _CASE_SEARCH_8_BYTE                       C439      1A      26       1   NON_BANKED  
-     _FPCMP                                    C453       8       8       1   NON_BANKED  
+     F_PULK                                    C3E2      15      21       1   NON_BANKED  
+     F_PULL                                    C3F7      15      21       1   NON_BANKED  
+     F_PSHK                                    C40C      13      19       2   NON_BANKED  
+     F_CLRK                                    C41F       B      11       1   NON_BANKED  
+     F_MAXK                                    C42A       9       9       2   NON_BANKED  
+     F_NORMK                                   C433      37      55       1   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- VREGS.C.o (ansixb.lib) --
 - PROCEDURES:
-     UL_PULK                                   C45B       3       3       1   NON_BANKED  
+     UL_PULK                                   C46A       3       3       1   NON_BANKED  
 - VARIABLES:
-MODULE:                 -- main.c.o --
-- PROCEDURES:
-     main                                    FE8029      46      70       2   .text       
-     AppTaskStart                            FE806F      48      72       3   .text       
-- VARIABLES:
-     STRING.Start.Task.1                       C151       B      11       1   .rodata1    
-     AppTaskStartStk                           2102     200     512       2   .bss        
 MODULE:                 -- app_hooks.c.o --
 - PROCEDURES:
-     App_TaskCreateHook                      FE80B7       5       5       2   .text       
-     App_TaskIdleHook                        FE80BC       1       1       2   .text       
-     App_TaskStatHook                        FE80BD       1       1       2   .text       
-     App_TaskSwHook                          FE80BE       5       5       2   .text       
-     App_TCBInitHook                         FE80C3       1       1       2   .text       
-     App_TimeTickHook                        FE80C4       5       5       2   .text       
+     App_TaskCreateHook                      FE8102       5       5       2   .text       
+     App_TaskIdleHook                        FE8107       1       1       2   .text       
+     App_TaskStatHook                        FE8108       1       1       2   .text       
+     App_TaskSwHook                          FE8109       5       5       2   .text       
+     App_TCBInitHook                         FE810E       1       1       2   .text       
+     App_TimeTickHook                        FE810F       5       5       2   .text       
 - VARIABLES:
 MODULE:                 -- app_probe.c.o --
 - PROCEDURES:
-     AppProbeInit                            FE80C9      19      25       2   .text       
-     AppProbeCallback                        FE80E2      10      16       3   .text       
+     AppProbeInit                            FE8114      19      25       2   .text       
+     AppProbeCallback                        FE812D      10      16       3   .text       
 - VARIABLES:
      Probe_Counts                              2302       4       4       4   .bss        
 MODULE:                 -- bsp.c.o --
 - PROCEDURES:
-     BSP_Init                                FE80F2      17      23       2   .text       
-     XGATE_Init                              FE8109      1C      28       2   .text       
-     PLL_Init                                FE8125      1A      26       2   .text       
-     BSP_CPU_ClkFreq                         FE813F       7       7       2   .text       
-     BSP_IntDisAll                           FE8146       5       5       2   .text       
-     LED_Init                                FE814B       5       5       2   .text       
-     LED_Off                                 FE8150      37      55       4   .text       
-     LED_On                                  FE8187      32      50       2   .text       
-     OSTickISR_Init                          FE81B9      3A      58       2   .text       
-     OSTickISR_Handler                       FE81F3       F      15       2   .text       
-     BSP_SetECT_Prescaler                    FE8202      56      86       2   .text       
-     OSProbe_TmrInit                         FE8258       1       1       2   .text       
-     OSProbe_TmrRd                           FE8259       5       5       2   .text       
+     BSP_Init                                FE813D      17      23       2   .text       
+     XGATE_Init                              FE8154      1C      28       2   .text       
+     PLL_Init                                FE8170      1A      26       2   .text       
+     BSP_CPU_ClkFreq                         FE818A       7       7       2   .text       
+     BSP_IntDisAll                           FE8191       5       5       2   .text       
+     LED_Init                                FE8196       5       5       2   .text       
+     LED_Off                                 FE819B      37      55       4   .text       
+     LED_On                                  FE81D2      32      50       2   .text       
+     OSTickISR_Init                          FE8204      3A      58       2   .text       
+     OSTickISR_Handler                       FE823E       F      15       2   .text       
+     BSP_SetECT_Prescaler                    FE824D      56      86       2   .text       
+     OSProbe_TmrInit                         FE82A3       1       1       2   .text       
+     OSProbe_TmrRd                           FE82A4       5       5       2   .text       
 - VARIABLES:
      OSTickCnts                                2306       2       2       2   .bss        
 MODULE:                 -- os_probe.c.o --
 - PROCEDURES:
-     OSProbe_Init                            FE825E      22      34       2   .text       
-     OSProbe_InitOS                          FE8280      3A      58       2   .text       
-     OSProbe_SetCallback                     FE82BA       7       7       4   .text       
-     OSProbe_SetDelay                        FE82C1       4       4       4   .text       
-     OSProbe_TaskCreateHook                  FE82C5      17      23       2   .text       
-     OSProbe_TaskSwHook                      FE82DC      31      49       2   .text       
-     OSProbe_TickHook                        FE830D       5       5       2   .text       
-     OSProbe_TimeGetCycles                   FE8312      33      51       6   .text       
-     OSProbe_Task                            FE8345     169     361       6   .text       
+     OSProbe_Init                            FE82A9      22      34       2   .text       
+     OSProbe_InitOS                          FE82CB      3A      58       2   .text       
+     OSProbe_SetCallback                     FE8305       7       7       4   .text       
+     OSProbe_SetDelay                        FE830C       4       4       4   .text       
+     OSProbe_TaskCreateHook                  FE8310      17      23       2   .text       
+     OSProbe_TaskSwHook                      FE8327      31      49       2   .text       
+     OSProbe_TickHook                        FE8358       5       5       2   .text       
+     OSProbe_TimeGetCycles                   FE835D      33      51       6   .text       
+     OSProbe_Task                            FE8390     169     361       6   .text       
 - VARIABLES:
-     STRING.Probe.OS.PlugIn.1                  C15C      10      16       1   .rodata1    
+     STRING.Probe.OS.PlugIn.1                  C16B      10      16       1   .rodata1    
      OSProbe_TaskStk                           2308     100     256       2   .bss        
      cycles_dif.2                              2408      50      80       8   .bss        
      cycles_tot_last.3                         2458      50      80       6   .bss        
@@ -1679,7 +1692,7 @@ MODULE:                 -- os_probe.c.o --
      OSProbe_TmrCntsPrev                       25EC       2       2       3   .common     
 MODULE:                 -- probe_com.c.o --
 - PROCEDURES:
-     ProbeCom_Init                           FE84AE      33      51       2   .text       
+     ProbeCom_Init                           FE84F9      33      51       2   .text       
 - VARIABLES:
      ProbeCom_EndiannessTest                   24A8       4       4       2   .bss        
      ProbeCom_InfoHndlr                        24AC       3       3       2   .bss        
@@ -1690,11 +1703,11 @@ MODULE:                 -- probe_com.c.o --
      ProbeCom_ErrPktCtr                        25FE       4       4       2   .common     
 MODULE:                 -- probe_rs232.c.o --
 - PROCEDURES:
-     ProbeRS232_RxHandler                    FE84E1      AB     171       2   .text       
-     ProbeRS232_TxHandler                    FE858C      C7     199       3   .text       
-     ProbeRS232_RxPkt                        FE8653       5       5       2   .text       
-     ProbeRS232_RxStoINT8U                   FE8658      19      25       2   .text       
-     ProbeRS232_RxBufClr                     FE8671       5       5       2   .text       
+     ProbeRS232_RxHandler                    FE852C      AB     171       2   .text       
+     ProbeRS232_TxHandler                    FE85D7      C7     199       3   .text       
+     ProbeRS232_RxPkt                        FE869E       5       5       2   .text       
+     ProbeRS232_RxStoINT8U                   FE86A3      19      25       2   .text       
+     ProbeRS232_RxBufClr                     FE86BC       5       5       2   .text       
 - VARIABLES:
      ProbeRS232_RxState                        24AF       1       1       4   .bss        
      ProbeRS232_RxRemainLen                    24B0       2       2       6   .bss        
@@ -1711,185 +1724,177 @@ MODULE:                 -- probe_rs232.c.o --
      ProbeRS232_TxCtr                          2606       4       4       4   .common     
 MODULE:                 -- probe_rs232_ba.s.o --
 - PROCEDURES:
-     ProbeRS232_RxTxISR                        C45E      1B      27       1   NON_BANKED  
-     ProbeRS232_RxTxISR1                       C479      15      21       0   NON_BANKED  
+     ProbeRS232_RxTxISR                        C46D      1B      27       1   NON_BANKED  
+     ProbeRS232_RxTxISR1                       C488      15      21       0   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- probe_rs232_os.c.o --
 - PROCEDURES:
-     ProbeRS232_OS_Post                      FE8676       8       8       2   .text       
+     ProbeRS232_OS_Post                      FE86C1       8       8       2   .text       
 - VARIABLES:
      ProbeRS232_OS_Sem                         253E       2       2       1   .bss        
 MODULE:                 -- probe_rs232c.c.o --
 - PROCEDURES:
-     ProbeRS232_RxTxISRHandler               FE867E      19      25       2   .text       
-     ProbeRS232_Tx1                          FE8697       3       3       2   .text       
-     ProbeRS232_TxIntDis                     FE869A       4       4       2   .text       
+     ProbeRS232_RxTxISRHandler               FE86C9      19      25       2   .text       
+     ProbeRS232_Tx1                          FE86E2       3       3       2   .text       
+     ProbeRS232_TxIntDis                     FE86E5       4       4       2   .text       
 - VARIABLES:
 MODULE:                 -- vectors_s12xep.c.o --
 - PROCEDURES:
-     software_trap10                           C48E       2       2       1   NON_BANKED  
-     software_trap12                           C490       2       2       1   NON_BANKED  
-     software_trap14                           C492       2       2       1   NON_BANKED  
-     software_trap16                           C494       2       2       1   NON_BANKED  
-     software_trap18                           C496       2       2       1   NON_BANKED  
-     software_trap1A                           C498       2       2       1   NON_BANKED  
-     software_trap1C                           C49A       2       2       1   NON_BANKED  
-     software_trap1E                           C49C       2       2       1   NON_BANKED  
-     software_trap20                           C49E       2       2       1   NON_BANKED  
-     software_trap22                           C4A0       2       2       1   NON_BANKED  
-     software_trap24                           C4A2       2       2       1   NON_BANKED  
-     software_trap26                           C4A4       2       2       1   NON_BANKED  
-     software_trap28                           C4A6       2       2       1   NON_BANKED  
-     software_trap2A                           C4A8       2       2       1   NON_BANKED  
-     software_trap2C                           C4AA       2       2       1   NON_BANKED  
-     software_trap2E                           C4AC       2       2       1   NON_BANKED  
-     software_trap30                           C4AE       2       2       1   NON_BANKED  
-     software_trap32                           C4B0       2       2       1   NON_BANKED  
-     software_trap34                           C4B2       2       2       1   NON_BANKED  
-     software_trap36                           C4B4       2       2       1   NON_BANKED  
-     software_trap38                           C4B6       2       2       1   NON_BANKED  
-     software_trap3A                           C4B8       2       2       1   NON_BANKED  
-     software_trap3C                           C4BA       2       2       1   NON_BANKED  
-     software_trap3E                           C4BC       2       2       1   NON_BANKED  
-     software_trap40                           C4BE       2       2       1   NON_BANKED  
-     software_trap42                           C4C0       2       2       1   NON_BANKED  
-     software_trap44                           C4C2       2       2       1   NON_BANKED  
-     software_trap46                           C4C4       2       2       1   NON_BANKED  
-     software_trap48                           C4C6       2       2       1   NON_BANKED  
-     software_trap4A                           C4C8       2       2       1   NON_BANKED  
-     software_trap4C                           C4CA       2       2       1   NON_BANKED  
-     software_trap4E                           C4CC       2       2       1   NON_BANKED  
-     software_trap50                           C4CE       2       2       1   NON_BANKED  
-     software_trap52                           C4D0       2       2       1   NON_BANKED  
-     software_trap54                           C4D2       2       2       1   NON_BANKED  
-     software_trap56                           C4D4       2       2       1   NON_BANKED  
-     software_trap58                           C4D6       2       2       1   NON_BANKED  
-     software_trap5A                           C4D8       2       2       1   NON_BANKED  
-     software_trap5C                           C4DA       2       2       1   NON_BANKED  
-     software_trap5E                           C4DC       2       2       1   NON_BANKED  
-     software_trap60                           C4DE       2       2       1   NON_BANKED  
-     software_trap62                           C4E0       2       2       1   NON_BANKED  
-     software_trap64                           C4E2       2       2       1   NON_BANKED  
-     software_trap66                           C4E4       2       2       1   NON_BANKED  
-     software_trap68                           C4E6       2       2       1   NON_BANKED  
-     software_trap6A                           C4E8       2       2       1   NON_BANKED  
-     software_trap6C                           C4EA       2       2       1   NON_BANKED  
-     software_trap6E                           C4EC       2       2       1   NON_BANKED  
-     software_trap70                           C4EE       2       2       1   NON_BANKED  
-     software_trap72                           C4F0       2       2       1   NON_BANKED  
-     software_trap74                           C4F2       2       2       1   NON_BANKED  
-     software_trap76                           C4F4       2       2       1   NON_BANKED  
-     software_trap78                           C4F6       2       2       1   NON_BANKED  
-     software_trap7A                           C4F8       2       2       1   NON_BANKED  
-     software_trap7C                           C4FA       2       2       1   NON_BANKED  
-     software_trap7E                           C4FC       2       2       1   NON_BANKED  
-     software_trap80                           C4FE       2       2       1   NON_BANKED  
-     software_trap82                           C500       2       2       1   NON_BANKED  
-     software_trap84                           C502       2       2       1   NON_BANKED  
-     software_trap86                           C504       2       2       1   NON_BANKED  
-     software_trap88                           C506       2       2       1   NON_BANKED  
-     software_trap8A                           C508       2       2       1   NON_BANKED  
-     software_trap8C                           C50A       2       2       1   NON_BANKED  
-     software_trap8E                           C50C       2       2       1   NON_BANKED  
-     software_trap90                           C50E       2       2       1   NON_BANKED  
-     software_trap92                           C510       2       2       1   NON_BANKED  
-     software_trap94                           C512       2       2       1   NON_BANKED  
-     software_trap96                           C514       2       2       1   NON_BANKED  
-     software_trap98                           C516       2       2       1   NON_BANKED  
-     software_trap9A                           C518       2       2       1   NON_BANKED  
-     software_trap9C                           C51A       2       2       1   NON_BANKED  
-     software_trap9E                           C51C       2       2       1   NON_BANKED  
-     software_trapA0                           C51E       2       2       1   NON_BANKED  
-     software_trapA2                           C520       2       2       1   NON_BANKED  
-     software_trapA4                           C522       2       2       1   NON_BANKED  
-     software_trapA6                           C524       2       2       1   NON_BANKED  
-     software_trapA8                           C526       2       2       1   NON_BANKED  
-     software_trapAA                           C528       2       2       1   NON_BANKED  
-     software_trapAC                           C52A       2       2       1   NON_BANKED  
-     software_trapAE                           C52C       2       2       1   NON_BANKED  
-     software_trapB0                           C52E       2       2       1   NON_BANKED  
-     software_trapB2                           C530       2       2       1   NON_BANKED  
-     software_trapB4                           C532       2       2       1   NON_BANKED  
-     software_trapB6                           C534       2       2       1   NON_BANKED  
-     software_trapB8                           C536       2       2       1   NON_BANKED  
-     software_trapBA                           C538       2       2       1   NON_BANKED  
-     software_trapBC                           C53A       2       2       1   NON_BANKED  
-     software_trapBE                           C53C       2       2       1   NON_BANKED  
-     software_trapC0                           C53E       2       2       1   NON_BANKED  
-     software_trapC2                           C540       2       2       1   NON_BANKED  
-     software_trapC4                           C542       2       2       1   NON_BANKED  
-     software_trapC6                           C544       2       2       1   NON_BANKED  
-     software_trapC8                           C546       2       2       1   NON_BANKED  
-     software_trapCA                           C548       2       2       1   NON_BANKED  
-     software_trapCC                           C54A       2       2       1   NON_BANKED  
-     software_trapCE                           C54C       2       2       1   NON_BANKED  
-     software_trapD0                           C54E       2       2       1   NON_BANKED  
-     software_trapD2                           C550       2       2       1   NON_BANKED  
-     software_trapD6                           C552       2       2       1   NON_BANKED  
-     software_trapD8                           C554       2       2       1   NON_BANKED  
-     software_trapDA                           C556       2       2       1   NON_BANKED  
-     software_trapDC                           C558       2       2       1   NON_BANKED  
-     software_trapDE                           C55A       2       2       1   NON_BANKED  
-     software_trapE2                           C55C       2       2       1   NON_BANKED  
-     software_trapE4                           C55E       2       2       1   NON_BANKED  
-     software_trapE6                           C560       2       2       1   NON_BANKED  
-     software_trapE8                           C562       2       2       1   NON_BANKED  
-     software_trapEA                           C564       2       2       1   NON_BANKED  
-     software_trapEC                           C566       2       2       1   NON_BANKED  
-     software_trapEE                           C568       2       2       1   NON_BANKED  
-     software_trapF0                           C56A       2       2       1   NON_BANKED  
-     software_trapF2                           C56C       2       2       1   NON_BANKED  
-     software_trapF4                           C56E       2       2       1   NON_BANKED  
-     software_trapF8                           C570       2       2       1   NON_BANKED  
-     software_trapFA                           C572       2       2       1   NON_BANKED  
-     software_trapFC                           C574       2       2       1   NON_BANKED  
+     software_trap10                           C49D       2       2       1   NON_BANKED  
+     software_trap12                           C49F       2       2       1   NON_BANKED  
+     software_trap14                           C4A1       2       2       1   NON_BANKED  
+     software_trap16                           C4A3       2       2       1   NON_BANKED  
+     software_trap18                           C4A5       2       2       1   NON_BANKED  
+     software_trap1A                           C4A7       2       2       1   NON_BANKED  
+     software_trap1C                           C4A9       2       2       1   NON_BANKED  
+     software_trap1E                           C4AB       2       2       1   NON_BANKED  
+     software_trap20                           C4AD       2       2       1   NON_BANKED  
+     software_trap22                           C4AF       2       2       1   NON_BANKED  
+     software_trap24                           C4B1       2       2       1   NON_BANKED  
+     software_trap26                           C4B3       2       2       1   NON_BANKED  
+     software_trap28                           C4B5       2       2       1   NON_BANKED  
+     software_trap2A                           C4B7       2       2       1   NON_BANKED  
+     software_trap2C                           C4B9       2       2       1   NON_BANKED  
+     software_trap2E                           C4BB       2       2       1   NON_BANKED  
+     software_trap30                           C4BD       2       2       1   NON_BANKED  
+     software_trap32                           C4BF       2       2       1   NON_BANKED  
+     software_trap34                           C4C1       2       2       1   NON_BANKED  
+     software_trap36                           C4C3       2       2       1   NON_BANKED  
+     software_trap38                           C4C5       2       2       1   NON_BANKED  
+     software_trap3A                           C4C7       2       2       1   NON_BANKED  
+     software_trap3C                           C4C9       2       2       1   NON_BANKED  
+     software_trap3E                           C4CB       2       2       1   NON_BANKED  
+     software_trap40                           C4CD       2       2       1   NON_BANKED  
+     software_trap42                           C4CF       2       2       1   NON_BANKED  
+     software_trap44                           C4D1       2       2       1   NON_BANKED  
+     software_trap46                           C4D3       2       2       1   NON_BANKED  
+     software_trap48                           C4D5       2       2       1   NON_BANKED  
+     software_trap4A                           C4D7       2       2       1   NON_BANKED  
+     software_trap4C                           C4D9       2       2       1   NON_BANKED  
+     software_trap4E                           C4DB       2       2       1   NON_BANKED  
+     software_trap50                           C4DD       2       2       1   NON_BANKED  
+     software_trap52                           C4DF       2       2       1   NON_BANKED  
+     software_trap54                           C4E1       2       2       1   NON_BANKED  
+     software_trap56                           C4E3       2       2       1   NON_BANKED  
+     software_trap58                           C4E5       2       2       1   NON_BANKED  
+     software_trap5A                           C4E7       2       2       1   NON_BANKED  
+     software_trap5C                           C4E9       2       2       1   NON_BANKED  
+     software_trap5E                           C4EB       2       2       1   NON_BANKED  
+     software_trap60                           C4ED       2       2       1   NON_BANKED  
+     software_trap62                           C4EF       2       2       1   NON_BANKED  
+     software_trap64                           C4F1       2       2       1   NON_BANKED  
+     software_trap66                           C4F3       2       2       1   NON_BANKED  
+     software_trap68                           C4F5       2       2       1   NON_BANKED  
+     software_trap6A                           C4F7       2       2       1   NON_BANKED  
+     software_trap6C                           C4F9       2       2       1   NON_BANKED  
+     software_trap6E                           C4FB       2       2       1   NON_BANKED  
+     software_trap70                           C4FD       2       2       1   NON_BANKED  
+     software_trap72                           C4FF       2       2       1   NON_BANKED  
+     software_trap74                           C501       2       2       1   NON_BANKED  
+     software_trap76                           C503       2       2       1   NON_BANKED  
+     software_trap78                           C505       2       2       1   NON_BANKED  
+     software_trap7A                           C507       2       2       1   NON_BANKED  
+     software_trap7C                           C509       2       2       1   NON_BANKED  
+     software_trap7E                           C50B       2       2       1   NON_BANKED  
+     software_trap80                           C50D       2       2       1   NON_BANKED  
+     software_trap82                           C50F       2       2       1   NON_BANKED  
+     software_trap84                           C511       2       2       1   NON_BANKED  
+     software_trap86                           C513       2       2       1   NON_BANKED  
+     software_trap88                           C515       2       2       1   NON_BANKED  
+     software_trap8A                           C517       2       2       1   NON_BANKED  
+     software_trap8C                           C519       2       2       1   NON_BANKED  
+     software_trap8E                           C51B       2       2       1   NON_BANKED  
+     software_trap90                           C51D       2       2       1   NON_BANKED  
+     software_trap92                           C51F       2       2       1   NON_BANKED  
+     software_trap94                           C521       2       2       1   NON_BANKED  
+     software_trap96                           C523       2       2       1   NON_BANKED  
+     software_trap98                           C525       2       2       1   NON_BANKED  
+     software_trap9A                           C527       2       2       1   NON_BANKED  
+     software_trap9C                           C529       2       2       1   NON_BANKED  
+     software_trap9E                           C52B       2       2       1   NON_BANKED  
+     software_trapA0                           C52D       2       2       1   NON_BANKED  
+     software_trapA2                           C52F       2       2       1   NON_BANKED  
+     software_trapA4                           C531       2       2       1   NON_BANKED  
+     software_trapA6                           C533       2       2       1   NON_BANKED  
+     software_trapA8                           C535       2       2       1   NON_BANKED  
+     software_trapAA                           C537       2       2       1   NON_BANKED  
+     software_trapAC                           C539       2       2       1   NON_BANKED  
+     software_trapAE                           C53B       2       2       1   NON_BANKED  
+     software_trapB0                           C53D       2       2       1   NON_BANKED  
+     software_trapB2                           C53F       2       2       1   NON_BANKED  
+     software_trapB4                           C541       2       2       1   NON_BANKED  
+     software_trapB6                           C543       2       2       1   NON_BANKED  
+     software_trapB8                           C545       2       2       1   NON_BANKED  
+     software_trapBA                           C547       2       2       1   NON_BANKED  
+     software_trapBC                           C549       2       2       1   NON_BANKED  
+     software_trapBE                           C54B       2       2       1   NON_BANKED  
+     software_trapC0                           C54D       2       2       1   NON_BANKED  
+     software_trapC2                           C54F       2       2       1   NON_BANKED  
+     software_trapC4                           C551       2       2       1   NON_BANKED  
+     software_trapC6                           C553       2       2       1   NON_BANKED  
+     software_trapC8                           C555       2       2       1   NON_BANKED  
+     software_trapCA                           C557       2       2       1   NON_BANKED  
+     software_trapCC                           C559       2       2       1   NON_BANKED  
+     software_trapCE                           C55B       2       2       1   NON_BANKED  
+     software_trapD0                           C55D       2       2       1   NON_BANKED  
+     software_trapD2                           C55F       2       2       1   NON_BANKED  
+     software_trapD6                           C561       2       2       1   NON_BANKED  
+     software_trapD8                           C563       2       2       1   NON_BANKED  
+     software_trapDA                           C565       2       2       1   NON_BANKED  
+     software_trapDC                           C567       2       2       1   NON_BANKED  
+     software_trapDE                           C569       2       2       1   NON_BANKED  
+     software_trapE2                           C56B       2       2       1   NON_BANKED  
+     software_trapE4                           C56D       2       2       1   NON_BANKED  
+     software_trapE6                           C56F       2       2       1   NON_BANKED  
+     software_trapE8                           C571       2       2       1   NON_BANKED  
+     software_trapEA                           C573       2       2       1   NON_BANKED  
+     software_trapEC                           C575       2       2       1   NON_BANKED  
+     software_trapEE                           C577       2       2       1   NON_BANKED  
+     software_trapF0                           C579       2       2       1   NON_BANKED  
+     software_trapF2                           C57B       2       2       1   NON_BANKED  
+     software_trapF4                           C57D       2       2       1   NON_BANKED  
+     software_trapF8                           C57F       2       2       1   NON_BANKED  
+     software_trapFA                           C581       2       2       1   NON_BANKED  
+     software_trapFC                           C583       2       2       1   NON_BANKED  
 - VARIABLES:
      _vect                                     FF10      F0     240       0   .abs_section_ff10
-MODULE:                 -- xgate.cxgate.o --
-- PROCEDURES:
-     __X_SoftwareTrigger0_Handler            E089C4      18      24       1   XGATE_CODE  
-     __X_ErrorHandler                        E089DC       4       4     112   XGATE_CODE  
-- VARIABLES:
-     MyData                                  F81100       2       2       1   XGATE_DATA  
-     XGATE_VectorTable                       E08800     1C4     452       1   XGATE_VECTORS
-     shared_counter                            2100       2       2       2   SHARED_DATA 
 MODULE:                 -- cpu_a.s.o --
 - PROCEDURES:
-     CPU_SR_Save                             FE9574       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          FE9579       3       3       0   cpu_a.s._SEC000000
+     CPU_SR_Save                             FE95BF       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          FE95C4       3       3       0   cpu_a.s._SEC000000
 - VARIABLES:
 MODULE:                 -- os_core.c.o --
 - PROCEDURES:
-     OSEventNameSet                          FE869E      5A      90       4   .text       
-     OSInit                                  FE86F8      35      53       2   .text       
-     OSIntExit                               FE872D      60      96       4   .text       
-     OSStart                                 FE878D      25      37       2   .text       
-     OSStatInit                              FE87B2      36      54       2   .text       
-     OSTimeTick                              FE87E8      A2     162       2   .text       
-     OS_EventTaskRdy                         FE888A      7D     125       2   .text       
-     OS_EventTaskWait                        FE8907      41      65       2   .text       
-     OS_EventTaskRemove                      FE8948      2E      46       4   .text       
-     OS_EventTaskRemoveMulti                 FE8976      49      73       2   .text       
-     OS_EventWaitListInit                    FE89BF       F      15       2   .text       
-     OS_InitEventList                        FE89CE      40      64       2   .text       
-     OS_InitMisc                             FE8A0E      30      48       2   .text       
-     OS_InitRdyList                          FE8A3E      1D      29       2   .text       
-     OS_InitTaskIdle                         FE8A5B      3B      59       2   .text       
-     OS_InitTaskStat                         FE8A96      3B      59       2   .text       
-     OS_InitTCBList                          FE8AD1      49      73       2   .text       
-     OS_MemClr                               FE8B1A       D      13      16   .text       
-     OS_Sched                                FE8B27      51      81      10   .text       
-     OS_SchedNew                             FE8B78      16      22       6   .text       
-     OS_StrCopy                              FE8B8E      18      24       4   .text       
-     OS_StrLen                               FE8BA6       B      11       4   .text       
-     OS_TaskIdle                             FE8BB1      1F      31       3   .text       
-     OS_TaskStat                             FE8BD0      7A     122       3   .text       
-     OS_TaskStatStkChk                       FE8C4A      43      67       2   .text       
-     OS_TCBInit                              FE8C8D      F7     247       2   .text       
+     OSEventNameSet                          FE86E9      5A      90       4   .text       
+     OSInit                                  FE8743      35      53       2   .text       
+     OSIntExit                               FE8778      60      96       4   .text       
+     OSStart                                 FE87D8      25      37       2   .text       
+     OSStatInit                              FE87FD      36      54       2   .text       
+     OSTimeTick                              FE8833      A2     162       2   .text       
+     OS_EventTaskRdy                         FE88D5      7D     125       2   .text       
+     OS_EventTaskWait                        FE8952      41      65       2   .text       
+     OS_EventTaskRemove                      FE8993      2E      46       4   .text       
+     OS_EventTaskRemoveMulti                 FE89C1      49      73       2   .text       
+     OS_EventWaitListInit                    FE8A0A       F      15       2   .text       
+     OS_InitEventList                        FE8A19      40      64       2   .text       
+     OS_InitMisc                             FE8A59      30      48       2   .text       
+     OS_InitRdyList                          FE8A89      1D      29       2   .text       
+     OS_InitTaskIdle                         FE8AA6      3B      59       2   .text       
+     OS_InitTaskStat                         FE8AE1      3B      59       2   .text       
+     OS_InitTCBList                          FE8B1C      49      73       2   .text       
+     OS_MemClr                               FE8B65       D      13      16   .text       
+     OS_Sched                                FE8B72      51      81      10   .text       
+     OS_SchedNew                             FE8BC3      16      22       6   .text       
+     OS_StrCopy                              FE8BD9      18      24       4   .text       
+     OS_StrLen                               FE8BF1       B      11       4   .text       
+     OS_TaskIdle                             FE8BFC      1F      31       3   .text       
+     OS_TaskStat                             FE8C1B      7A     122       3   .text       
+     OS_TaskStatStkChk                       FE8C95      43      67       2   .text       
+     OS_TCBInit                              FE8CD8      F7     247       2   .text       
 - VARIABLES:
-     OSUnMapTbl                                C051     100     256       2   .rodata     
-     STRING.uC.OS.II.Idle.1                    C16C       E      14       1   .rodata1    
-     STRING.uC.OS.II.Stat.2                    C17A       E      14       1   .rodata1    
+     OSUnMapTbl                                C060     100     256       2   .rodata     
+     STRING.uC.OS.II.Idle.1                    C17B       E      14       1   .rodata1    
+     STRING.uC.OS.II.Stat.2                    C189       E      14       1   .rodata1    
      OSCtxSwCtr                                260A       4       4      10   .common     
      OSEventFreeList                           260E       2       2       3   .common     
      OSEventTbl                                2610     12C     300       4   .common     
@@ -1933,89 +1938,90 @@ MODULE:                 -- os_core.c.o --
      OSTmrWheelTbl                             33D0      20      32       4   .common     
 MODULE:                 -- os_cpu_a.s.o --
 - PROCEDURES:
-     OS_CPU_SR_Save                            C576       5       5      42   NON_BANKED  
-     OS_CPU_SR_Restore                         C57B       3       3      62   NON_BANKED  
-     OSStartHighRdy                            C57E      1B      27       2   NON_BANKED  
-     OSCtxSw                                   C599      30      48       1   NON_BANKED  
-     OSIntCtxSw                                C5C9      1F      31       2   NON_BANKED  
-     OSTickISR                                 C5E8      1B      27       1   NON_BANKED  
-     OSTickISR1                                C603      15      21       0   NON_BANKED  
+     OS_CPU_SR_Save                            C585       5       5      42   NON_BANKED  
+     OS_CPU_SR_Restore                         C58A       3       3      62   NON_BANKED  
+     OSStartHighRdy                            C58D      1B      27       2   NON_BANKED  
+     OSCtxSw                                   C5A8      30      48       1   NON_BANKED  
+     OSIntCtxSw                                C5D8      1F      31       2   NON_BANKED  
+     OSTickISR                                 C5F7      1B      27       1   NON_BANKED  
+     OSTickISR1                                C612      15      21       0   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- os_cpu_c.c.o --
 - PROCEDURES:
-     OSInitHookBegin                         FE8D84       5       5       2   .text       
-     OSInitHookEnd                           FE8D89       1       1       2   .text       
-     OSTaskCreateHook                        FE8D8A       5       5       2   .text       
-     OSTaskIdleHook                          FE8D8F       5       5       2   .text       
-     OSTaskStatHook                          FE8D94       5       5       2   .text       
-     OSTaskStkInit                           FE8D99      54      84       2   .text       
-     OSTaskSwHook                            FE8DED       5       5       6   .text       
-     OSTCBInitHook                           FE8DF2       5       5       2   .text       
-     OSTimeTickHook                          FE8DF7      19      25       2   .text       
+     OSInitHookBegin                         FE8DCF       5       5       2   .text       
+     OSInitHookEnd                           FE8DD4       1       1       2   .text       
+     OSTaskCreateHook                        FE8DD5       5       5       2   .text       
+     OSTaskIdleHook                          FE8DDA       5       5       2   .text       
+     OSTaskStatHook                          FE8DDF       5       5       2   .text       
+     OSTaskStkInit                           FE8DE4      54      84       2   .text       
+     OSTaskSwHook                            FE8E38       5       5       6   .text       
+     OSTCBInitHook                           FE8E3D       5       5       2   .text       
+     OSTimeTickHook                          FE8E42      19      25       2   .text       
 - VARIABLES:
      OSTmrCtr                                  2540       2       2       4   .bss        
 MODULE:                 -- os_dbg_r.c.o --
 - PROCEDURES:
-     OSDebugInit                             FE8E10       1       1       2   .text       
+     OSDebugInit                             FE8E5B       1       1       2   .text       
 - VARIABLES:
 MODULE:                 -- os_flag.c.o --
 - PROCEDURES:
-     OS_FlagInit                             FE8E11      40      64       2   .text       
+     OS_FlagInit                             FE8E5C      40      64       2   .text       
 - VARIABLES:
 MODULE:                 -- os_mem.c.o --
 - PROCEDURES:
-     OS_MemInit                              FE8E51      47      71       2   .text       
+     OS_MemInit                              FE8E9C      47      71       2   .text       
 - VARIABLES:
 MODULE:                 -- os_q.c.o --
 - PROCEDURES:
-     OS_QInit                                FE8E98      33      51       2   .text       
+     OS_QInit                                FE8EE3      33      51       2   .text       
 - VARIABLES:
 MODULE:                 -- os_sem.c.o --
 - PROCEDURES:
-     OSSemCreate                             FE8ECB      42      66       4   .text       
-     OSSemPend                               FE8F0D      A7     167       4   .text       
-     OSSemPost                               FE8FB4      51      81       6   .text       
+     OSSemCreate                             FE8F16      42      66       4   .text       
+     OSSemPend                               FE8F58      A7     167       4   .text       
+     OSSemPost                               FE8FFF      51      81       6   .text       
 - VARIABLES:
 MODULE:                 -- os_task.c.o --
 - PROCEDURES:
-     OSTaskCreateExt                         FE9005      B6     182      11   .text       
-     OSTaskNameSet                           FE90BB      6D     109      10   .text       
-     OSTaskStkChk                            FE9128      9A     154       2   .text       
-     OSTaskSuspend                           FE91C2      7C     124       2   .text       
-     OS_TaskStkClr                           FE923E      26      38       2   .text       
+     OSTaskCreateExt                         FE9050      B6     182      11   .text       
+     OSTaskNameSet                           FE9106      6D     109      10   .text       
+     OSTaskStkChk                            FE9173      9A     154       2   .text       
+     OSTaskSuspend                           FE920D      7C     124       2   .text       
+     OS_TaskStkClr                           FE9289      26      38       2   .text       
 - VARIABLES:
 MODULE:                 -- os_time.c.o --
 - PROCEDURES:
-     OSTimeDly                               FE9264      40      64      12   .text       
-     OSTimeDlyHMSM                           FE92A4      70     112       4   .text       
+     OSTimeDly                               FE92AF      40      64      12   .text       
+     OSTimeDlyHMSM                           FE92EF      70     112       4   .text       
 - VARIABLES:
 MODULE:                 -- os_tmr.c.o --
 - PROCEDURES:
-     OSTmrSignal                             FE9314       8       8       2   .text       
-     OSTmr_Init                              FE931C      A0     160       2   .text       
-     OSTmr_InitTask                          FE93BC      3B      59       2   .text       
-     OSTmr_Link                              FE93F7      84     132       2   .text       
-     OSTmr_Unlink                            FE947B      44      68       2   .text       
-     OSTmr_Lock                              FE94BF      13      19       2   .text       
-     OSTmr_Unlock                            FE94D2       8       8       2   .text       
-     OSTmr_Task                              FE94DA      9A     154       4   .text       
+     OSTmrSignal                             FE935F       8       8       2   .text       
+     OSTmr_Init                              FE9367      A0     160       2   .text       
+     OSTmr_InitTask                          FE9407      3B      59       2   .text       
+     OSTmr_Link                              FE9442      84     132       2   .text       
+     OSTmr_Unlink                            FE94C6      44      68       2   .text       
+     OSTmr_Lock                              FE950A      13      19       2   .text       
+     OSTmr_Unlock                            FE951D       8       8       2   .text       
+     OSTmr_Task                              FE9525      9A     154       4   .text       
 - VARIABLES:
-     STRING.OS.TmrLock.1                       C188       B      11       1   .rodata1    
-     STRING.OS.TmrSig.2                        C193       A      10       1   .rodata1    
-     STRING.uC.OS.II.Tmr.3                     C19D       D      13       1   .rodata1    
+     STRING.OS.TmrLock.1                       C197       B      11       1   .rodata1    
+     STRING.OS.TmrSig.2                        C1A2       A      10       1   .rodata1    
+     STRING.uC.OS.II.Tmr.3                     C1AC       D      13       1   .rodata1    
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   MC9S12XEP100.c.o                           899      0      0
-  Start12.c.o                                  0     52      0
+  main.c.o                                   518    198     11
+  Start12.c.o                                  0     75      0
+  rtshc12.c.o (ansixbi.lib)                    0    343      0
+  xgate.cxgate.o                               2     28    452
   FCONV.C.o (ansixb.lib)                       0     48      0
   FMUL.C.o (ansixb.lib)                        0    162      0
   FREGS.C.o (ansixb.lib)                       0    136      0
-  rtshc12.c.o (ansixb.lib)                     0    343      0
   VREGS.C.o (ansixb.lib)                       0      3      0
-  main.c.o                                   512    142     11
   app_hooks.c.o                                0     18      0
   app_probe.c.o                                4     41      0
   bsp.c.o                                      2    364      0
@@ -2026,7 +2032,6 @@ MODULE STATISTIC
   probe_rs232_os.c.o                           2      8      0
   probe_rs232c.c.o                             0     32      0
   vectors_s12xep.c.o                           0    232    240
-  xgate.cxgate.o                               4     28    452
   cpu_a.s.o                                    0      8      0
   os_core.c.o                               3553   1766    284
   os_cpu_a.s.o                                 0    162      0
@@ -2039,17 +2044,17 @@ MODULE STATISTIC
   os_task.c.o                                  0    607      0
   os_time.c.o                                  0    176      0
   os_tmr.c.o                                   0    608     34
-  other                                      256     70      2
+  other                                      256     81      2
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  Init main AppTaskStart App_TaskCreateHook App_TaskIdleHook App_TaskStatHook 
-  App_TaskSwHook App_TCBInitHook App_TimeTickHook AppProbeInit AppProbeCallback 
-  BSP_Init XGATE_Init PLL_Init BSP_CPU_ClkFreq BSP_IntDisAll LED_Init LED_Off 
-  LED_On OSTickISR_Init OSTickISR_Handler BSP_SetECT_Prescaler OSProbe_TmrInit 
-  OSProbe_TmrRd OSProbe_Init OSProbe_InitOS OSProbe_SetCallback 
+  SetupXGATE main AppTaskStart Init App_TaskCreateHook App_TaskIdleHook 
+  App_TaskStatHook App_TaskSwHook App_TCBInitHook App_TimeTickHook AppProbeInit 
+  AppProbeCallback BSP_Init XGATE_Init PLL_Init BSP_CPU_ClkFreq BSP_IntDisAll 
+  LED_Init LED_Off LED_On OSTickISR_Init OSTickISR_Handler BSP_SetECT_Prescaler 
+  OSProbe_TmrInit OSProbe_TmrRd OSProbe_Init OSProbe_InitOS OSProbe_SetCallback 
   OSProbe_SetDelay OSProbe_TaskCreateHook OSProbe_TaskSwHook OSProbe_TickHook 
   OSProbe_TimeGetCycles OSProbe_Task ProbeCom_Init ProbeRS232_RxHandler 
   ProbeRS232_TxHandler ProbeRS232_RxPkt ProbeRS232_RxStoINT8U 
@@ -2081,9 +2086,9 @@ SECTION: ".rodata1"
   STRING.uC.OS.II.Stat.2 STRING.OS.TmrLock.1 STRING.OS.TmrSig.2 
   STRING.uC.OS.II.Tmr.3 
 SECTION: "NON_BANKED"
-  F_FRLONGK _FUFLOAT F_DIVKL _FDIV F_PULK F_PULL F_PSHK F_CLRK F_MAXK F_NORMK 
   _BSHL _LCMP _LINC _LDEC _LMUL _LMULU16x32 _lDivMod _LDIVU _CASE_DIRECT_BYTE 
-  _CASE_CHECKED_BYTE _CASE_SEARCH_8_BYTE _FPCMP UL_PULK ProbeRS232_RxTxISR 
+  _CASE_CHECKED_BYTE _CASE_SEARCH_8_BYTE _FPCMP F_FRLONGK _FUFLOAT F_DIVKL 
+  _FDIV F_PULK F_PULL F_PSHK F_CLRK F_MAXK F_NORMK UL_PULK ProbeRS232_RxTxISR 
   ProbeRS232_RxTxISR1 software_trap10 software_trap12 software_trap14 
   software_trap16 software_trap18 software_trap1A software_trap1C 
   software_trap1E software_trap20 software_trap22 software_trap24 
@@ -2123,6 +2128,10 @@ SECTION: "SHARED_DATA"
   shared_counter 
 SECTION: "XGATE_DATA"
   MyData 
+SECTION: "XGATE_STK_L"
+  XGATE_STACK_L 
+SECTION: "XGATE_STK_H"
+  XGATE_STACK_H 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -3818,8 +3827,8 @@ OBJECT LIST SORTED BY ADDRESS
      _MPUDESC5                                  11F       1       1       0   .abs_section_11f
      _IVBR                                      121       1       1       0   .abs_section_121
      _INT_XGPRIO                                126       1       1       0   .abs_section_126
-     _INT_CFADDR                                127       1       1       1   .abs_section_127
-     _INT_CFDATA0                               128       1       1       1   .abs_section_128
+     _INT_CFADDR                                127       1       1       2   .abs_section_127
+     _INT_CFDATA0                               128       1       1       2   .abs_section_128
      _INT_CFDATA1                               129       1       1       0   .abs_section_129
      _INT_CFDATA2                               12A       1       1       0   .abs_section_12a
      _INT_CFDATA3                               12B       1       1       0   .abs_section_12b
@@ -4305,11 +4314,11 @@ OBJECT LIST SORTED BY ADDRESS
      _PERF                                      37C       1       1       0   .abs_section_37c
      _PPSF                                      37D       1       1       0   .abs_section_37d
      _PTFRR                                     37F       1       1       0   .abs_section_37f
-     _XGMCTL                                    380       2       2       1   .abs_section_380
+     _XGMCTL                                    380       2       2       2   .abs_section_380
      _XGCHID                                    382       1       1       0   .abs_section_382
      _XGCHPL                                    383       1       1       0   .abs_section_383
-     _XGISPSEL                                  385       1       1       0   .abs_section_385
-     _XGISP31                                   386       2       2       1   .abs_section_386
+     _XGISPSEL                                  385       1       1       3   .abs_section_385
+     _XGISP31                                   386       2       2       4   .abs_section_386
      _XGIF_7F_70                                388       2       2       0   .abs_section_388
      _XGIF_6F_60                                38A       2       2       0   .abs_section_38a
      _XGIF_5F_50                                38C       2       2       0   .abs_section_38c
@@ -4318,7 +4327,7 @@ OBJECT LIST SORTED BY ADDRESS
      _XGIF_2F_20                                392       2       2       0   .abs_section_392
      _XGIF_1F_10                                394       2       2       0   .abs_section_394
      _XGIF_0F_00                                396       2       2       0   .abs_section_396
-     _XGSWT                                     398       2       2       1   .abs_section_398
+     _XGSWT                                     398       2       2       2   .abs_section_398
      _XGSEM                                     39A       2       2       0   .abs_section_39a
      _XGCCR                                     39D       1       1       0   .abs_section_39d
      _XGPC                                      39E       2       2       0   .abs_section_39e
@@ -4433,286 +4442,289 @@ OBJECT LIST SORTED BY ADDRESS
      OSTmrFreeList                             332E       2       2       1   .common     
      OSTmrTaskStk                              3330      A0     160       2   .common     
      OSTmrWheelTbl                             33D0      20      32       4   .common     
-     _Startup                                  C000       B      11       1   .init       
-     OSUnMapTbl                                C051     100     256       2   .rodata     
-     STRING.Start.Task.1                       C151       B      11       1   .rodata1    
-     STRING.Probe.OS.PlugIn.1                  C15C      10      16       1   .rodata1    
-     STRING.uC.OS.II.Idle.1                    C16C       E      14       1   .rodata1    
-     STRING.uC.OS.II.Stat.2                    C17A       E      14       1   .rodata1    
-     STRING.OS.TmrLock.1                       C188       B      11       1   .rodata1    
-     STRING.OS.TmrSig.2                        C193       A      10       1   .rodata1    
-     STRING.uC.OS.II.Tmr.3                     C19D       D      13       1   .rodata1    
-     F_FRLONGK                                 C1AA      1E      30       1   NON_BANKED  
-     _FUFLOAT                                  C1C8      12      18       3   NON_BANKED  
-     F_DIVKL                                   C1DA      84     132       1   NON_BANKED  
-     _FDIV                                     C25E      1E      30       2   NON_BANKED  
-     F_PULK                                    C27C      15      21       1   NON_BANKED  
-     F_PULL                                    C291      15      21       1   NON_BANKED  
-     F_PSHK                                    C2A6      13      19       2   NON_BANKED  
-     F_CLRK                                    C2B9       B      11       1   NON_BANKED  
-     F_MAXK                                    C2C4       9       9       2   NON_BANKED  
-     F_NORMK                                   C2CD      37      55       1   NON_BANKED  
-     _BSHL                                     C304       8       8       3   NON_BANKED  
-     _LCMP                                     C30C       A      10       1   NON_BANKED  
-     _LINC                                     C316       5       5      11   NON_BANKED  
-     _LDEC                                     C31B       8       8       1   NON_BANKED  
-     _LMUL                                     C323      27      39       1   NON_BANKED  
-     _LMULU16x32                               C34A       F      15       2   NON_BANKED  
-     _lDivMod                                  C359      B9     185       1   NON_BANKED  
-     _LDIVU                                    C412       E      14       3   NON_BANKED  
-     _CASE_DIRECT_BYTE                         C420       5       5       1   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C425      14      20       5   NON_BANKED  
-     _CASE_SEARCH_8_BYTE                       C439      1A      26       1   NON_BANKED  
-     _FPCMP                                    C453       8       8       1   NON_BANKED  
-     UL_PULK                                   C45B       3       3       1   NON_BANKED  
-     ProbeRS232_RxTxISR                        C45E      1B      27       1   NON_BANKED  
-     ProbeRS232_RxTxISR1                       C479      15      21       0   NON_BANKED  
-     software_trap10                           C48E       2       2       1   NON_BANKED  
-     software_trap12                           C490       2       2       1   NON_BANKED  
-     software_trap14                           C492       2       2       1   NON_BANKED  
-     software_trap16                           C494       2       2       1   NON_BANKED  
-     software_trap18                           C496       2       2       1   NON_BANKED  
-     software_trap1A                           C498       2       2       1   NON_BANKED  
-     software_trap1C                           C49A       2       2       1   NON_BANKED  
-     software_trap1E                           C49C       2       2       1   NON_BANKED  
-     software_trap20                           C49E       2       2       1   NON_BANKED  
-     software_trap22                           C4A0       2       2       1   NON_BANKED  
-     software_trap24                           C4A2       2       2       1   NON_BANKED  
-     software_trap26                           C4A4       2       2       1   NON_BANKED  
-     software_trap28                           C4A6       2       2       1   NON_BANKED  
-     software_trap2A                           C4A8       2       2       1   NON_BANKED  
-     software_trap2C                           C4AA       2       2       1   NON_BANKED  
-     software_trap2E                           C4AC       2       2       1   NON_BANKED  
-     software_trap30                           C4AE       2       2       1   NON_BANKED  
-     software_trap32                           C4B0       2       2       1   NON_BANKED  
-     software_trap34                           C4B2       2       2       1   NON_BANKED  
-     software_trap36                           C4B4       2       2       1   NON_BANKED  
-     software_trap38                           C4B6       2       2       1   NON_BANKED  
-     software_trap3A                           C4B8       2       2       1   NON_BANKED  
-     software_trap3C                           C4BA       2       2       1   NON_BANKED  
-     software_trap3E                           C4BC       2       2       1   NON_BANKED  
-     software_trap40                           C4BE       2       2       1   NON_BANKED  
-     software_trap42                           C4C0       2       2       1   NON_BANKED  
-     software_trap44                           C4C2       2       2       1   NON_BANKED  
-     software_trap46                           C4C4       2       2       1   NON_BANKED  
-     software_trap48                           C4C6       2       2       1   NON_BANKED  
-     software_trap4A                           C4C8       2       2       1   NON_BANKED  
-     software_trap4C                           C4CA       2       2       1   NON_BANKED  
-     software_trap4E                           C4CC       2       2       1   NON_BANKED  
-     software_trap50                           C4CE       2       2       1   NON_BANKED  
-     software_trap52                           C4D0       2       2       1   NON_BANKED  
-     software_trap54                           C4D2       2       2       1   NON_BANKED  
-     software_trap56                           C4D4       2       2       1   NON_BANKED  
-     software_trap58                           C4D6       2       2       1   NON_BANKED  
-     software_trap5A                           C4D8       2       2       1   NON_BANKED  
-     software_trap5C                           C4DA       2       2       1   NON_BANKED  
-     software_trap5E                           C4DC       2       2       1   NON_BANKED  
-     software_trap60                           C4DE       2       2       1   NON_BANKED  
-     software_trap62                           C4E0       2       2       1   NON_BANKED  
-     software_trap64                           C4E2       2       2       1   NON_BANKED  
-     software_trap66                           C4E4       2       2       1   NON_BANKED  
-     software_trap68                           C4E6       2       2       1   NON_BANKED  
-     software_trap6A                           C4E8       2       2       1   NON_BANKED  
-     software_trap6C                           C4EA       2       2       1   NON_BANKED  
-     software_trap6E                           C4EC       2       2       1   NON_BANKED  
-     software_trap70                           C4EE       2       2       1   NON_BANKED  
-     software_trap72                           C4F0       2       2       1   NON_BANKED  
-     software_trap74                           C4F2       2       2       1   NON_BANKED  
-     software_trap76                           C4F4       2       2       1   NON_BANKED  
-     software_trap78                           C4F6       2       2       1   NON_BANKED  
-     software_trap7A                           C4F8       2       2       1   NON_BANKED  
-     software_trap7C                           C4FA       2       2       1   NON_BANKED  
-     software_trap7E                           C4FC       2       2       1   NON_BANKED  
-     software_trap80                           C4FE       2       2       1   NON_BANKED  
-     software_trap82                           C500       2       2       1   NON_BANKED  
-     software_trap84                           C502       2       2       1   NON_BANKED  
-     software_trap86                           C504       2       2       1   NON_BANKED  
-     software_trap88                           C506       2       2       1   NON_BANKED  
-     software_trap8A                           C508       2       2       1   NON_BANKED  
-     software_trap8C                           C50A       2       2       1   NON_BANKED  
-     software_trap8E                           C50C       2       2       1   NON_BANKED  
-     software_trap90                           C50E       2       2       1   NON_BANKED  
-     software_trap92                           C510       2       2       1   NON_BANKED  
-     software_trap94                           C512       2       2       1   NON_BANKED  
-     software_trap96                           C514       2       2       1   NON_BANKED  
-     software_trap98                           C516       2       2       1   NON_BANKED  
-     software_trap9A                           C518       2       2       1   NON_BANKED  
-     software_trap9C                           C51A       2       2       1   NON_BANKED  
-     software_trap9E                           C51C       2       2       1   NON_BANKED  
-     software_trapA0                           C51E       2       2       1   NON_BANKED  
-     software_trapA2                           C520       2       2       1   NON_BANKED  
-     software_trapA4                           C522       2       2       1   NON_BANKED  
-     software_trapA6                           C524       2       2       1   NON_BANKED  
-     software_trapA8                           C526       2       2       1   NON_BANKED  
-     software_trapAA                           C528       2       2       1   NON_BANKED  
-     software_trapAC                           C52A       2       2       1   NON_BANKED  
-     software_trapAE                           C52C       2       2       1   NON_BANKED  
-     software_trapB0                           C52E       2       2       1   NON_BANKED  
-     software_trapB2                           C530       2       2       1   NON_BANKED  
-     software_trapB4                           C532       2       2       1   NON_BANKED  
-     software_trapB6                           C534       2       2       1   NON_BANKED  
-     software_trapB8                           C536       2       2       1   NON_BANKED  
-     software_trapBA                           C538       2       2       1   NON_BANKED  
-     software_trapBC                           C53A       2       2       1   NON_BANKED  
-     software_trapBE                           C53C       2       2       1   NON_BANKED  
-     software_trapC0                           C53E       2       2       1   NON_BANKED  
-     software_trapC2                           C540       2       2       1   NON_BANKED  
-     software_trapC4                           C542       2       2       1   NON_BANKED  
-     software_trapC6                           C544       2       2       1   NON_BANKED  
-     software_trapC8                           C546       2       2       1   NON_BANKED  
-     software_trapCA                           C548       2       2       1   NON_BANKED  
-     software_trapCC                           C54A       2       2       1   NON_BANKED  
-     software_trapCE                           C54C       2       2       1   NON_BANKED  
-     software_trapD0                           C54E       2       2       1   NON_BANKED  
-     software_trapD2                           C550       2       2       1   NON_BANKED  
-     software_trapD6                           C552       2       2       1   NON_BANKED  
-     software_trapD8                           C554       2       2       1   NON_BANKED  
-     software_trapDA                           C556       2       2       1   NON_BANKED  
-     software_trapDC                           C558       2       2       1   NON_BANKED  
-     software_trapDE                           C55A       2       2       1   NON_BANKED  
-     software_trapE2                           C55C       2       2       1   NON_BANKED  
-     software_trapE4                           C55E       2       2       1   NON_BANKED  
-     software_trapE6                           C560       2       2       1   NON_BANKED  
-     software_trapE8                           C562       2       2       1   NON_BANKED  
-     software_trapEA                           C564       2       2       1   NON_BANKED  
-     software_trapEC                           C566       2       2       1   NON_BANKED  
-     software_trapEE                           C568       2       2       1   NON_BANKED  
-     software_trapF0                           C56A       2       2       1   NON_BANKED  
-     software_trapF2                           C56C       2       2       1   NON_BANKED  
-     software_trapF4                           C56E       2       2       1   NON_BANKED  
-     software_trapF8                           C570       2       2       1   NON_BANKED  
-     software_trapFA                           C572       2       2       1   NON_BANKED  
-     software_trapFC                           C574       2       2       1   NON_BANKED  
-     OS_CPU_SR_Save                            C576       5       5      42   NON_BANKED  
-     OS_CPU_SR_Restore                         C57B       3       3      62   NON_BANKED  
-     OSStartHighRdy                            C57E      1B      27       2   NON_BANKED  
-     OSCtxSw                                   C599      30      48       1   NON_BANKED  
-     OSIntCtxSw                                C5C9      1F      31       2   NON_BANKED  
-     OSTickISR                                 C5E8      1B      27       1   NON_BANKED  
-     OSTickISR1                                C603      15      21       0   NON_BANKED  
+     _Startup                                  C000       F      15       1   .init       
+     OSUnMapTbl                                C060     100     256       2   .rodata     
+     STRING.Start.Task.1                       C160       B      11       1   .rodata1    
+     STRING.Probe.OS.PlugIn.1                  C16B      10      16       1   .rodata1    
+     STRING.uC.OS.II.Idle.1                    C17B       E      14       1   .rodata1    
+     STRING.uC.OS.II.Stat.2                    C189       E      14       1   .rodata1    
+     STRING.OS.TmrLock.1                       C197       B      11       1   .rodata1    
+     STRING.OS.TmrSig.2                        C1A2       A      10       1   .rodata1    
+     STRING.uC.OS.II.Tmr.3                     C1AC       D      13       1   .rodata1    
+     _BSHL                                     C1B9       8       8       3   NON_BANKED  
+     _LCMP                                     C1C1       A      10       1   NON_BANKED  
+     _LINC                                     C1CB       5       5      11   NON_BANKED  
+     _LDEC                                     C1D0       8       8       1   NON_BANKED  
+     _LMUL                                     C1D8      27      39       1   NON_BANKED  
+     _LMULU16x32                               C1FF       F      15       2   NON_BANKED  
+     _lDivMod                                  C20E      B9     185       1   NON_BANKED  
+     _LDIVU                                    C2C7       E      14       3   NON_BANKED  
+     _CASE_DIRECT_BYTE                         C2D5       5       5       1   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C2DA      14      20       5   NON_BANKED  
+     _CASE_SEARCH_8_BYTE                       C2EE      1A      26       1   NON_BANKED  
+     _FPCMP                                    C308       8       8       1   NON_BANKED  
+     F_FRLONGK                                 C310      1E      30       1   NON_BANKED  
+     _FUFLOAT                                  C32E      12      18       3   NON_BANKED  
+     F_DIVKL                                   C340      84     132       1   NON_BANKED  
+     _FDIV                                     C3C4      1E      30       2   NON_BANKED  
+     F_PULK                                    C3E2      15      21       1   NON_BANKED  
+     F_PULL                                    C3F7      15      21       1   NON_BANKED  
+     F_PSHK                                    C40C      13      19       2   NON_BANKED  
+     F_CLRK                                    C41F       B      11       1   NON_BANKED  
+     F_MAXK                                    C42A       9       9       2   NON_BANKED  
+     F_NORMK                                   C433      37      55       1   NON_BANKED  
+     UL_PULK                                   C46A       3       3       1   NON_BANKED  
+     ProbeRS232_RxTxISR                        C46D      1B      27       1   NON_BANKED  
+     ProbeRS232_RxTxISR1                       C488      15      21       0   NON_BANKED  
+     software_trap10                           C49D       2       2       1   NON_BANKED  
+     software_trap12                           C49F       2       2       1   NON_BANKED  
+     software_trap14                           C4A1       2       2       1   NON_BANKED  
+     software_trap16                           C4A3       2       2       1   NON_BANKED  
+     software_trap18                           C4A5       2       2       1   NON_BANKED  
+     software_trap1A                           C4A7       2       2       1   NON_BANKED  
+     software_trap1C                           C4A9       2       2       1   NON_BANKED  
+     software_trap1E                           C4AB       2       2       1   NON_BANKED  
+     software_trap20                           C4AD       2       2       1   NON_BANKED  
+     software_trap22                           C4AF       2       2       1   NON_BANKED  
+     software_trap24                           C4B1       2       2       1   NON_BANKED  
+     software_trap26                           C4B3       2       2       1   NON_BANKED  
+     software_trap28                           C4B5       2       2       1   NON_BANKED  
+     software_trap2A                           C4B7       2       2       1   NON_BANKED  
+     software_trap2C                           C4B9       2       2       1   NON_BANKED  
+     software_trap2E                           C4BB       2       2       1   NON_BANKED  
+     software_trap30                           C4BD       2       2       1   NON_BANKED  
+     software_trap32                           C4BF       2       2       1   NON_BANKED  
+     software_trap34                           C4C1       2       2       1   NON_BANKED  
+     software_trap36                           C4C3       2       2       1   NON_BANKED  
+     software_trap38                           C4C5       2       2       1   NON_BANKED  
+     software_trap3A                           C4C7       2       2       1   NON_BANKED  
+     software_trap3C                           C4C9       2       2       1   NON_BANKED  
+     software_trap3E                           C4CB       2       2       1   NON_BANKED  
+     software_trap40                           C4CD       2       2       1   NON_BANKED  
+     software_trap42                           C4CF       2       2       1   NON_BANKED  
+     software_trap44                           C4D1       2       2       1   NON_BANKED  
+     software_trap46                           C4D3       2       2       1   NON_BANKED  
+     software_trap48                           C4D5       2       2       1   NON_BANKED  
+     software_trap4A                           C4D7       2       2       1   NON_BANKED  
+     software_trap4C                           C4D9       2       2       1   NON_BANKED  
+     software_trap4E                           C4DB       2       2       1   NON_BANKED  
+     software_trap50                           C4DD       2       2       1   NON_BANKED  
+     software_trap52                           C4DF       2       2       1   NON_BANKED  
+     software_trap54                           C4E1       2       2       1   NON_BANKED  
+     software_trap56                           C4E3       2       2       1   NON_BANKED  
+     software_trap58                           C4E5       2       2       1   NON_BANKED  
+     software_trap5A                           C4E7       2       2       1   NON_BANKED  
+     software_trap5C                           C4E9       2       2       1   NON_BANKED  
+     software_trap5E                           C4EB       2       2       1   NON_BANKED  
+     software_trap60                           C4ED       2       2       1   NON_BANKED  
+     software_trap62                           C4EF       2       2       1   NON_BANKED  
+     software_trap64                           C4F1       2       2       1   NON_BANKED  
+     software_trap66                           C4F3       2       2       1   NON_BANKED  
+     software_trap68                           C4F5       2       2       1   NON_BANKED  
+     software_trap6A                           C4F7       2       2       1   NON_BANKED  
+     software_trap6C                           C4F9       2       2       1   NON_BANKED  
+     software_trap6E                           C4FB       2       2       1   NON_BANKED  
+     software_trap70                           C4FD       2       2       1   NON_BANKED  
+     software_trap72                           C4FF       2       2       1   NON_BANKED  
+     software_trap74                           C501       2       2       1   NON_BANKED  
+     software_trap76                           C503       2       2       1   NON_BANKED  
+     software_trap78                           C505       2       2       1   NON_BANKED  
+     software_trap7A                           C507       2       2       1   NON_BANKED  
+     software_trap7C                           C509       2       2       1   NON_BANKED  
+     software_trap7E                           C50B       2       2       1   NON_BANKED  
+     software_trap80                           C50D       2       2       1   NON_BANKED  
+     software_trap82                           C50F       2       2       1   NON_BANKED  
+     software_trap84                           C511       2       2       1   NON_BANKED  
+     software_trap86                           C513       2       2       1   NON_BANKED  
+     software_trap88                           C515       2       2       1   NON_BANKED  
+     software_trap8A                           C517       2       2       1   NON_BANKED  
+     software_trap8C                           C519       2       2       1   NON_BANKED  
+     software_trap8E                           C51B       2       2       1   NON_BANKED  
+     software_trap90                           C51D       2       2       1   NON_BANKED  
+     software_trap92                           C51F       2       2       1   NON_BANKED  
+     software_trap94                           C521       2       2       1   NON_BANKED  
+     software_trap96                           C523       2       2       1   NON_BANKED  
+     software_trap98                           C525       2       2       1   NON_BANKED  
+     software_trap9A                           C527       2       2       1   NON_BANKED  
+     software_trap9C                           C529       2       2       1   NON_BANKED  
+     software_trap9E                           C52B       2       2       1   NON_BANKED  
+     software_trapA0                           C52D       2       2       1   NON_BANKED  
+     software_trapA2                           C52F       2       2       1   NON_BANKED  
+     software_trapA4                           C531       2       2       1   NON_BANKED  
+     software_trapA6                           C533       2       2       1   NON_BANKED  
+     software_trapA8                           C535       2       2       1   NON_BANKED  
+     software_trapAA                           C537       2       2       1   NON_BANKED  
+     software_trapAC                           C539       2       2       1   NON_BANKED  
+     software_trapAE                           C53B       2       2       1   NON_BANKED  
+     software_trapB0                           C53D       2       2       1   NON_BANKED  
+     software_trapB2                           C53F       2       2       1   NON_BANKED  
+     software_trapB4                           C541       2       2       1   NON_BANKED  
+     software_trapB6                           C543       2       2       1   NON_BANKED  
+     software_trapB8                           C545       2       2       1   NON_BANKED  
+     software_trapBA                           C547       2       2       1   NON_BANKED  
+     software_trapBC                           C549       2       2       1   NON_BANKED  
+     software_trapBE                           C54B       2       2       1   NON_BANKED  
+     software_trapC0                           C54D       2       2       1   NON_BANKED  
+     software_trapC2                           C54F       2       2       1   NON_BANKED  
+     software_trapC4                           C551       2       2       1   NON_BANKED  
+     software_trapC6                           C553       2       2       1   NON_BANKED  
+     software_trapC8                           C555       2       2       1   NON_BANKED  
+     software_trapCA                           C557       2       2       1   NON_BANKED  
+     software_trapCC                           C559       2       2       1   NON_BANKED  
+     software_trapCE                           C55B       2       2       1   NON_BANKED  
+     software_trapD0                           C55D       2       2       1   NON_BANKED  
+     software_trapD2                           C55F       2       2       1   NON_BANKED  
+     software_trapD6                           C561       2       2       1   NON_BANKED  
+     software_trapD8                           C563       2       2       1   NON_BANKED  
+     software_trapDA                           C565       2       2       1   NON_BANKED  
+     software_trapDC                           C567       2       2       1   NON_BANKED  
+     software_trapDE                           C569       2       2       1   NON_BANKED  
+     software_trapE2                           C56B       2       2       1   NON_BANKED  
+     software_trapE4                           C56D       2       2       1   NON_BANKED  
+     software_trapE6                           C56F       2       2       1   NON_BANKED  
+     software_trapE8                           C571       2       2       1   NON_BANKED  
+     software_trapEA                           C573       2       2       1   NON_BANKED  
+     software_trapEC                           C575       2       2       1   NON_BANKED  
+     software_trapEE                           C577       2       2       1   NON_BANKED  
+     software_trapF0                           C579       2       2       1   NON_BANKED  
+     software_trapF2                           C57B       2       2       1   NON_BANKED  
+     software_trapF4                           C57D       2       2       1   NON_BANKED  
+     software_trapF8                           C57F       2       2       1   NON_BANKED  
+     software_trapFA                           C581       2       2       1   NON_BANKED  
+     software_trapFC                           C583       2       2       1   NON_BANKED  
+     OS_CPU_SR_Save                            C585       5       5      42   NON_BANKED  
+     OS_CPU_SR_Restore                         C58A       3       3      62   NON_BANKED  
+     OSStartHighRdy                            C58D      1B      27       2   NON_BANKED  
+     OSCtxSw                                   C5A8      30      48       1   NON_BANKED  
+     OSIntCtxSw                                C5D8      1F      31       2   NON_BANKED  
+     OSTickISR                                 C5F7      1B      27       1   NON_BANKED  
+     OSTickISR1                                C612      15      21       0   NON_BANKED  
      _vect                                     FF10      F0     240       0   .abs_section_ff10
-     XGATE_VectorTable                       E08800     1C4     452       1   XGATE_VECTORS
+     XGATE_VectorTable                       E08800     1C4     452       2   XGATE_VECTORS
      __X_SoftwareTrigger0_Handler            E089C4      18      24       1   XGATE_CODE  
      __X_ErrorHandler                        E089DC       4       4     112   XGATE_CODE  
+     XGATE_STACK_L                           F8107E       2       2       1   XGATE_STK_L 
+     XGATE_STACK_H                           F810FE       2       2       1   XGATE_STK_H 
      MyData                                  F81100       2       2       1   XGATE_DATA  
-     Init                                    FE8000      29      41       2   .text       
-     main                                    FE8029      46      70       2   .text       
-     AppTaskStart                            FE806F      48      72       3   .text       
-     App_TaskCreateHook                      FE80B7       5       5       2   .text       
-     App_TaskIdleHook                        FE80BC       1       1       2   .text       
-     App_TaskStatHook                        FE80BD       1       1       2   .text       
-     App_TaskSwHook                          FE80BE       5       5       2   .text       
-     App_TCBInitHook                         FE80C3       1       1       2   .text       
-     App_TimeTickHook                        FE80C4       5       5       2   .text       
-     AppProbeInit                            FE80C9      19      25       2   .text       
-     AppProbeCallback                        FE80E2      10      16       3   .text       
-     BSP_Init                                FE80F2      17      23       2   .text       
-     XGATE_Init                              FE8109      1C      28       2   .text       
-     PLL_Init                                FE8125      1A      26       2   .text       
-     BSP_CPU_ClkFreq                         FE813F       7       7       2   .text       
-     BSP_IntDisAll                           FE8146       5       5       2   .text       
-     LED_Init                                FE814B       5       5       2   .text       
-     LED_Off                                 FE8150      37      55       4   .text       
-     LED_On                                  FE8187      32      50       2   .text       
-     OSTickISR_Init                          FE81B9      3A      58       2   .text       
-     OSTickISR_Handler                       FE81F3       F      15       2   .text       
-     BSP_SetECT_Prescaler                    FE8202      56      86       2   .text       
-     OSProbe_TmrInit                         FE8258       1       1       2   .text       
-     OSProbe_TmrRd                           FE8259       5       5       2   .text       
-     OSProbe_Init                            FE825E      22      34       2   .text       
-     OSProbe_InitOS                          FE8280      3A      58       2   .text       
-     OSProbe_SetCallback                     FE82BA       7       7       4   .text       
-     OSProbe_SetDelay                        FE82C1       4       4       4   .text       
-     OSProbe_TaskCreateHook                  FE82C5      17      23       2   .text       
-     OSProbe_TaskSwHook                      FE82DC      31      49       2   .text       
-     OSProbe_TickHook                        FE830D       5       5       2   .text       
-     OSProbe_TimeGetCycles                   FE8312      33      51       6   .text       
-     OSProbe_Task                            FE8345     169     361       6   .text       
-     ProbeCom_Init                           FE84AE      33      51       2   .text       
-     ProbeRS232_RxHandler                    FE84E1      AB     171       2   .text       
-     ProbeRS232_TxHandler                    FE858C      C7     199       3   .text       
-     ProbeRS232_RxPkt                        FE8653       5       5       2   .text       
-     ProbeRS232_RxStoINT8U                   FE8658      19      25       2   .text       
-     ProbeRS232_RxBufClr                     FE8671       5       5       2   .text       
-     ProbeRS232_OS_Post                      FE8676       8       8       2   .text       
-     ProbeRS232_RxTxISRHandler               FE867E      19      25       2   .text       
-     ProbeRS232_Tx1                          FE8697       3       3       2   .text       
-     ProbeRS232_TxIntDis                     FE869A       4       4       2   .text       
-     OSEventNameSet                          FE869E      5A      90       4   .text       
-     OSInit                                  FE86F8      35      53       2   .text       
-     OSIntExit                               FE872D      60      96       4   .text       
-     OSStart                                 FE878D      25      37       2   .text       
-     OSStatInit                              FE87B2      36      54       2   .text       
-     OSTimeTick                              FE87E8      A2     162       2   .text       
-     OS_EventTaskRdy                         FE888A      7D     125       2   .text       
-     OS_EventTaskWait                        FE8907      41      65       2   .text       
-     OS_EventTaskRemove                      FE8948      2E      46       4   .text       
-     OS_EventTaskRemoveMulti                 FE8976      49      73       2   .text       
-     OS_EventWaitListInit                    FE89BF       F      15       2   .text       
-     OS_InitEventList                        FE89CE      40      64       2   .text       
-     OS_InitMisc                             FE8A0E      30      48       2   .text       
-     OS_InitRdyList                          FE8A3E      1D      29       2   .text       
-     OS_InitTaskIdle                         FE8A5B      3B      59       2   .text       
-     OS_InitTaskStat                         FE8A96      3B      59       2   .text       
-     OS_InitTCBList                          FE8AD1      49      73       2   .text       
-     OS_MemClr                               FE8B1A       D      13      16   .text       
-     OS_Sched                                FE8B27      51      81      10   .text       
-     OS_SchedNew                             FE8B78      16      22       6   .text       
-     OS_StrCopy                              FE8B8E      18      24       4   .text       
-     OS_StrLen                               FE8BA6       B      11       4   .text       
-     OS_TaskIdle                             FE8BB1      1F      31       3   .text       
-     OS_TaskStat                             FE8BD0      7A     122       3   .text       
-     OS_TaskStatStkChk                       FE8C4A      43      67       2   .text       
-     OS_TCBInit                              FE8C8D      F7     247       2   .text       
-     OSInitHookBegin                         FE8D84       5       5       2   .text       
-     OSInitHookEnd                           FE8D89       1       1       2   .text       
-     OSTaskCreateHook                        FE8D8A       5       5       2   .text       
-     OSTaskIdleHook                          FE8D8F       5       5       2   .text       
-     OSTaskStatHook                          FE8D94       5       5       2   .text       
-     OSTaskStkInit                           FE8D99      54      84       2   .text       
-     OSTaskSwHook                            FE8DED       5       5       6   .text       
-     OSTCBInitHook                           FE8DF2       5       5       2   .text       
-     OSTimeTickHook                          FE8DF7      19      25       2   .text       
-     OSDebugInit                             FE8E10       1       1       2   .text       
-     OS_FlagInit                             FE8E11      40      64       2   .text       
-     OS_MemInit                              FE8E51      47      71       2   .text       
-     OS_QInit                                FE8E98      33      51       2   .text       
-     OSSemCreate                             FE8ECB      42      66       4   .text       
-     OSSemPend                               FE8F0D      A7     167       4   .text       
-     OSSemPost                               FE8FB4      51      81       6   .text       
-     OSTaskCreateExt                         FE9005      B6     182      11   .text       
-     OSTaskNameSet                           FE90BB      6D     109      10   .text       
-     OSTaskStkChk                            FE9128      9A     154       2   .text       
-     OSTaskSuspend                           FE91C2      7C     124       2   .text       
-     OS_TaskStkClr                           FE923E      26      38       2   .text       
-     OSTimeDly                               FE9264      40      64      12   .text       
-     OSTimeDlyHMSM                           FE92A4      70     112       4   .text       
-     OSTmrSignal                             FE9314       8       8       2   .text       
-     OSTmr_Init                              FE931C      A0     160       2   .text       
-     OSTmr_InitTask                          FE93BC      3B      59       2   .text       
-     OSTmr_Link                              FE93F7      84     132       2   .text       
-     OSTmr_Unlink                            FE947B      44      68       2   .text       
-     OSTmr_Lock                              FE94BF      13      19       2   .text       
-     OSTmr_Unlock                            FE94D2       8       8       2   .text       
-     OSTmr_Task                              FE94DA      9A     154       4   .text       
-     CPU_SR_Save                             FE9574       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          FE9579       3       3       0   cpu_a.s._SEC000000
+     SetupXGATE                              FE8000      35      53       2   .text       
+     main                                    FE8035      49      73       2   .text       
+     AppTaskStart                            FE807E      48      72       3   .text       
+     Init                                    FE80C6      3C      60       2   .text       
+     App_TaskCreateHook                      FE8102       5       5       2   .text       
+     App_TaskIdleHook                        FE8107       1       1       2   .text       
+     App_TaskStatHook                        FE8108       1       1       2   .text       
+     App_TaskSwHook                          FE8109       5       5       2   .text       
+     App_TCBInitHook                         FE810E       1       1       2   .text       
+     App_TimeTickHook                        FE810F       5       5       2   .text       
+     AppProbeInit                            FE8114      19      25       2   .text       
+     AppProbeCallback                        FE812D      10      16       3   .text       
+     BSP_Init                                FE813D      17      23       2   .text       
+     XGATE_Init                              FE8154      1C      28       2   .text       
+     PLL_Init                                FE8170      1A      26       2   .text       
+     BSP_CPU_ClkFreq                         FE818A       7       7       2   .text       
+     BSP_IntDisAll                           FE8191       5       5       2   .text       
+     LED_Init                                FE8196       5       5       2   .text       
+     LED_Off                                 FE819B      37      55       4   .text       
+     LED_On                                  FE81D2      32      50       2   .text       
+     OSTickISR_Init                          FE8204      3A      58       2   .text       
+     OSTickISR_Handler                       FE823E       F      15       2   .text       
+     BSP_SetECT_Prescaler                    FE824D      56      86       2   .text       
+     OSProbe_TmrInit                         FE82A3       1       1       2   .text       
+     OSProbe_TmrRd                           FE82A4       5       5       2   .text       
+     OSProbe_Init                            FE82A9      22      34       2   .text       
+     OSProbe_InitOS                          FE82CB      3A      58       2   .text       
+     OSProbe_SetCallback                     FE8305       7       7       4   .text       
+     OSProbe_SetDelay                        FE830C       4       4       4   .text       
+     OSProbe_TaskCreateHook                  FE8310      17      23       2   .text       
+     OSProbe_TaskSwHook                      FE8327      31      49       2   .text       
+     OSProbe_TickHook                        FE8358       5       5       2   .text       
+     OSProbe_TimeGetCycles                   FE835D      33      51       6   .text       
+     OSProbe_Task                            FE8390     169     361       6   .text       
+     ProbeCom_Init                           FE84F9      33      51       2   .text       
+     ProbeRS232_RxHandler                    FE852C      AB     171       2   .text       
+     ProbeRS232_TxHandler                    FE85D7      C7     199       3   .text       
+     ProbeRS232_RxPkt                        FE869E       5       5       2   .text       
+     ProbeRS232_RxStoINT8U                   FE86A3      19      25       2   .text       
+     ProbeRS232_RxBufClr                     FE86BC       5       5       2   .text       
+     ProbeRS232_OS_Post                      FE86C1       8       8       2   .text       
+     ProbeRS232_RxTxISRHandler               FE86C9      19      25       2   .text       
+     ProbeRS232_Tx1                          FE86E2       3       3       2   .text       
+     ProbeRS232_TxIntDis                     FE86E5       4       4       2   .text       
+     OSEventNameSet                          FE86E9      5A      90       4   .text       
+     OSInit                                  FE8743      35      53       2   .text       
+     OSIntExit                               FE8778      60      96       4   .text       
+     OSStart                                 FE87D8      25      37       2   .text       
+     OSStatInit                              FE87FD      36      54       2   .text       
+     OSTimeTick                              FE8833      A2     162       2   .text       
+     OS_EventTaskRdy                         FE88D5      7D     125       2   .text       
+     OS_EventTaskWait                        FE8952      41      65       2   .text       
+     OS_EventTaskRemove                      FE8993      2E      46       4   .text       
+     OS_EventTaskRemoveMulti                 FE89C1      49      73       2   .text       
+     OS_EventWaitListInit                    FE8A0A       F      15       2   .text       
+     OS_InitEventList                        FE8A19      40      64       2   .text       
+     OS_InitMisc                             FE8A59      30      48       2   .text       
+     OS_InitRdyList                          FE8A89      1D      29       2   .text       
+     OS_InitTaskIdle                         FE8AA6      3B      59       2   .text       
+     OS_InitTaskStat                         FE8AE1      3B      59       2   .text       
+     OS_InitTCBList                          FE8B1C      49      73       2   .text       
+     OS_MemClr                               FE8B65       D      13      16   .text       
+     OS_Sched                                FE8B72      51      81      10   .text       
+     OS_SchedNew                             FE8BC3      16      22       6   .text       
+     OS_StrCopy                              FE8BD9      18      24       4   .text       
+     OS_StrLen                               FE8BF1       B      11       4   .text       
+     OS_TaskIdle                             FE8BFC      1F      31       3   .text       
+     OS_TaskStat                             FE8C1B      7A     122       3   .text       
+     OS_TaskStatStkChk                       FE8C95      43      67       2   .text       
+     OS_TCBInit                              FE8CD8      F7     247       2   .text       
+     OSInitHookBegin                         FE8DCF       5       5       2   .text       
+     OSInitHookEnd                           FE8DD4       1       1       2   .text       
+     OSTaskCreateHook                        FE8DD5       5       5       2   .text       
+     OSTaskIdleHook                          FE8DDA       5       5       2   .text       
+     OSTaskStatHook                          FE8DDF       5       5       2   .text       
+     OSTaskStkInit                           FE8DE4      54      84       2   .text       
+     OSTaskSwHook                            FE8E38       5       5       6   .text       
+     OSTCBInitHook                           FE8E3D       5       5       2   .text       
+     OSTimeTickHook                          FE8E42      19      25       2   .text       
+     OSDebugInit                             FE8E5B       1       1       2   .text       
+     OS_FlagInit                             FE8E5C      40      64       2   .text       
+     OS_MemInit                              FE8E9C      47      71       2   .text       
+     OS_QInit                                FE8EE3      33      51       2   .text       
+     OSSemCreate                             FE8F16      42      66       4   .text       
+     OSSemPend                               FE8F58      A7     167       4   .text       
+     OSSemPost                               FE8FFF      51      81       6   .text       
+     OSTaskCreateExt                         FE9050      B6     182      11   .text       
+     OSTaskNameSet                           FE9106      6D     109      10   .text       
+     OSTaskStkChk                            FE9173      9A     154       2   .text       
+     OSTaskSuspend                           FE920D      7C     124       2   .text       
+     OS_TaskStkClr                           FE9289      26      38       2   .text       
+     OSTimeDly                               FE92AF      40      64      12   .text       
+     OSTimeDlyHMSM                           FE92EF      70     112       4   .text       
+     OSTmrSignal                             FE935F       8       8       2   .text       
+     OSTmr_Init                              FE9367      A0     160       2   .text       
+     OSTmr_InitTask                          FE9407      3B      59       2   .text       
+     OSTmr_Link                              FE9442      84     132       2   .text       
+     OSTmr_Unlink                            FE94C6      44      68       2   .text       
+     OSTmr_Lock                              FE950A      13      19       2   .text       
+     OSTmr_Unlock                            FE951D       8       8       2   .text       
+     OSTmr_Task                              FE9525      9A     154       4   .text       
+     CPU_SR_Save                             FE95BF       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          FE95C4       3       3       0   cpu_a.s._SEC000000
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
+rtshc12.c.o (ansixbi.lib):
+  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU _LSHRS 
+  _LADD _LSUB _LAND _LOR _LXOR _LCMP_P _LCMP_PP _LNEG _LCOM _LMULS16x32 _NEG_P 
+  _LDIVS _LMODU _LMODS _ILSEXT _COPY _CASE_DIRECT _CASE_CHECKED _CASE_SEARCH 
+  _CASE_SEARCH_BYTE _CASE_SEARCH_8 _FCALL _PADD _PSUB _PINC _PDEC 
 FCONV.C.o (ansixb.lib):
   F_TOLONGK _FSFLOAT _FSTRUNC _FUTRUNC 
 FMUL.C.o (ansixb.lib):
   F_MULKL _FMUL 
 FREGS.C.o (ansixb.lib):
   F_STAL F_TLK F_TKL F_XGKL F_CLRL 
-rtshc12.c.o (ansixb.lib):
-  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU _LSHRS 
-  _LADD _LSUB _LAND _LOR _LXOR _LCMP_P _LCMP_PP _LNEG _LCOM _LMULS16x32 _NEG_P 
-  _LDIVS _LMODU _LMODS _ILSEXT _COPY _CASE_DIRECT _CASE_CHECKED _CASE_SEARCH 
-  _CASE_SEARCH_BYTE _CASE_SEARCH_8 _FCALL _PADD _PSUB _PINC _PDEC 
 VREGS.C.o (ansixb.lib):
   L_NEGK L_PSHK SL_PULK 
 app_hooks.c.o:
@@ -4733,8 +4745,6 @@ probe_rs232c.c.o:
   ProbeRS232_RxIntEn 
 vectors_s12xep.c.o:
   software_trapD4 software_trapE0 software_trapF6 software_trapFE 
-xgate.cxgate.o:
-  __X_SetupXGATE 
 os_core.c.o:
   OSEventNameGet OSEventPendMulti OSIntEnter OSSchedLock OSSchedUnlock 
   OSVersion OS_Dummy OS_EventTaskWaitMulti OS_MemCopy 
@@ -4760,12 +4770,10 @@ os_tmr.c.o:
   OSTmrCreate OSTmrDel OSTmrNameGet OSTmrRemainGet OSTmrStateGet OSTmrStart 
   OSTmrStop OSTmr_Alloc OSTmr_Free 
 NOT USED VARIABLES
-rtshc12.c.o (ansixb.lib):
+rtshc12.c.o (ansixbi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 probe_rs232_os.c.o:
   STRING.Probe.RS.232.1 STRING.Probe.RS.232.2 ProbeRS232_OS_TaskStk 
-xgate.cxgate.o:
-  XGATE_STACK_L XGATE_STACK_H 
 os_dbg_r.c.o:
   OSDebugEn OSEndiannessTest OSEventEn OSEventMax OSEventNameSize OSEventSize 
   OSEventTblSize OSEventMultiEn OSFlagEn OSFlagGrpSize OSFlagNodeSize 
@@ -4781,7 +4789,7 @@ os_dbg_r.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC618 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC627 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -4789,12 +4797,12 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
+_LDIVU                    USES _lDivMod 
 _FUFLOAT                  USES UL_PULK F_FRLONGK F_PSHK 
 F_DIVKL                   USES F_MAXK F_NORMK 
 _FDIV                     USES F_PULL F_PULK F_DIVKL F_PSHK 
 F_MAXK                    USES F_CLRK 
 F_NORMK                   USES F_MAXK 
-_LDIVU                    USES _lDivMod 
 ProbeRS232_RxTxISR        USES OSIntNesting OSTCBCur 
 ProbeRS232_RxTxISR1       USES ProbeRS232_RxTxISRHandler OSIntExit 
 OSStartHighRdy            USES OSTaskSwHook OSRunning OSTCBHighRdy 
@@ -4846,12 +4854,15 @@ _vect                     USES software_trap10 software_trap12 software_trap14
 XGATE_VectorTable         USES __X_ErrorHandler MyData 
                                 __X_SoftwareTrigger0_Handler 
 __X_SoftwareTrigger0_Handler USES shared_counter 
-Init                      USES _startupData 
-main                      USES BSP_IntDisAll OSInit AppTaskStart 
+SetupXGATE                USES XGATE_VectorTable _XGISP31 _INT_CFADDR 
+                                _INT_CFDATA0 _XGISPSEL XGATE_STACK_L XGATE_STACK_H _XGMCTL 
+                                _XGSWT 
+main                      USES SetupXGATE BSP_IntDisAll OSInit AppTaskStart 
                                 AppTaskStartStk OSTaskCreateExt STRING.Start.Task.1 
                                 OSTaskNameSet OSStart 
 AppTaskStart              USES BSP_Init OSStatInit AppProbeInit LED_Off LED_On 
                                 OSTimeDlyHMSM 
+Init                      USES _startupData 
 App_TaskCreateHook        USES OSProbe_TaskCreateHook 
 App_TaskSwHook            USES OSProbe_TaskSwHook 
 App_TimeTickHook          USES OSProbe_TickHook 
@@ -5006,6 +5017,14 @@ DEPENDENCY TREE
  | 
  +- main                
  |  | 
+ |  +- SetupXGATE          
+ |  |  | 
+ |  |  +- XGATE_VectorTable   
+ |  |     | 
+ |  |     +- __X_ErrorHandler    
+ |  |     |    
+ |  |     +- __X_SoftwareTrigger0_Handler
+ |  |          
  |  +- BSP_IntDisAll       
  |  |  | 
  |  |  +- CPU_SR_Save         
@@ -5236,12 +5255,8 @@ DEPENDENCY TREE
  |  |  |  | 
  |  |  |  +- XGATE_Init          
  |  |  |  |  | 
- |  |  |  |  +- XGATE_VectorTable   
- |  |  |  |     | 
- |  |  |  |     +- __X_ErrorHandler    
- |  |  |  |     |    
- |  |  |  |     +- __X_SoftwareTrigger0_Handler
- |  |  |  |          
+ |  |  |  |  +- XGATE_VectorTable    (see above)
+ |  |  |  |     
  |  |  |  +- PLL_Init            
  |  |  |  |    
  |  |  |  +- BSP_SetECT_Prescaler
@@ -5618,6 +5633,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 7782
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 7872
 

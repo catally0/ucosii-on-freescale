@@ -1,52 +1,27 @@
-/*
-*********************************************************************************************************
-*  
-*  应用于龙丘综合开发平台V3.0 
-*  Designed by Chiu Sir
-*  E-mail:chiusir@163.com
-*  软件版本:V1.1
-*  kernal:uC/OS-II V2.86                                      
-*  target:MC9S12XEP100                                      
-*  crystal:16M 
-*  PLL:32M
-*  最后更新:2009年9月30日
-*  相关信息参考下列地址:
-*  网站:  http://www.lqist.cn
-*  淘宝店:http://shop36265907.taobao.com
----------------------------------------------------
-【A】本工程用P&E可以直接下载和运行
-
-【B】用LQ_USBDM V1.3或者LQ_USBDM_CF V2.0下载的方法和步骤:
-  1,编译本P&E工程没有错误,生成.abs/.s19文件
-  2,打开原有的工程或者新建一个最简单的工程
-  3,打开hiwave.exe文件
-  4,从TBDML HCS12下来菜单选择RESET
-  5,从TBDML HCS12下来菜单选择FLASH
-  6,从弹出窗口单击"select all"
-  7,从弹出窗口单击"erase"
-  8,从弹出窗口单击"load",找到LQXEP100ucos286PE\bin\LQXEPucos.abs/.s19,然后等待下载完成
-  9,单击OK就可以了,按下运行或者复位,应该就可以跑起来,现象是LED流水点亮,比较美观:)
-
-【说明】其实不用P&E下载器,照样可以建立P&E的工程,然后用HIWAVE下载,    
-
-*********************************************************************************************************
-*/
-      
 #include "includes.h"    
 
-/*
-*********************************************************************************************************
-*                                               VARIABLES
-*********************************************************************************************************
-*/
+#pragma push
+
+/* this variable definition is to demonstrate how to share data between XGATE and S12X */
+#pragma DATA_SEG SHARED_DATA
+volatile int shared_counter; /* volatile because both cores are accessing it. */
+
+/* Two stacks in XGATE core3 */ 
+#pragma DATA_SEG XGATE_STK_L
+word XGATE_STACK_L[1]; 
+#pragma DATA_SEG XGATE_STK_H
+word XGATE_STACK_H[1];
+
+#pragma pop
+
+#define ROUTE_INTERRUPT(vec_adr, cfdata)                \
+  INT_CFADDR= (vec_adr) & 0xF0;                         \
+  INT_CFDATA_ARR[((vec_adr) & 0x0F) >> 1]= (cfdata)
+
+#define SOFTWARETRIGGER0_VEC  0x72 /* vector address= 2 * channel id */
+
 
 static  OS_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
-
-/*
-*********************************************************************************************************
-*                                          FUNCTION PROTOTYPES
-*********************************************************************************************************
-*/
 
 static  void    AppTaskStart(void *p_arg);
 
@@ -54,15 +29,41 @@ static  void    AppTaskStart(void *p_arg);
 extern  void    AppProbeInit(void);
 #endif
 
-/*
-*********************************************************************************************************
-*                                             C ENTRY POINT
-*********************************************************************************************************
-*/
 
-int  main (void)
-{
+
+static void SetupXGATE(void) {
+  /* initialize the XGATE vector block and
+     set the XGVBR register to its start address */
+  XGVBR= (unsigned int)(void*__far)(XGATE_VectorTable - XGATE_VECTOR_OFFSET);
+
+  /* switch software trigger 0 interrupt to XGATE */
+  ROUTE_INTERRUPT(SOFTWARETRIGGER0_VEC, 0x81); /* RQST=1 and PRIO=1 */
+
+  /* when changing your derivative to non-core3 one please remove next five lines */
+  XGISPSEL= 1;
+  XGISP31= (unsigned int)(void*__far)(XGATE_STACK_L + 1);
+  XGISPSEL= 2;
+  XGISP74= (unsigned int)(void*__far)(XGATE_STACK_H + 1);
+  XGISPSEL= 0;
+
+  /* enable XGATE mode and interrupts */
+  XGMCTL= 0xFBC1; /* XGE | XGFRZ | XGIE */
+
+  /* force execution of software trigger 0 handler */
+  XGSWT= 0x0101;
+}
+
+
+
+
+
+void main(void) {
+  /* put your own code here */
     CPU_INT08U  err;
+      
+SetupXGATE();
+  
+
 
   
     BSP_IntDisAll();                                                    /* Disable ALL interrupts to the interrupt controller       */
@@ -87,21 +88,6 @@ int  main (void)
 
     OSStart();                                                          /* Start uC/OS-II                                           */
 }
-
-/*$PAGE*/
-/*
-*********************************************************************************************************
-*                                              STARTUP TASK
-*
-* Description : This is an example of a startup task.  As mentioned in the book's text, you MUST
-*               initialize the ticker only once multitasking has started.
-* Arguments   : p_arg is the argument passed to 'AppStartTask()' by 'OSTaskCreate()'.
-* Notes       : 1) The first line of code is used to prevent a compiler warning because 'p_arg' is not
-*                  used.  The compiler should not generate any code for this statement.
-*               2) Interrupts are enabled once the task start because the I-bit of the CCR register was
-*                  set to 0 by 'OSTaskCreate()'.
-*********************************************************************************************************
-*/
 
 static  void  AppTaskStart (void *p_arg)
 {
@@ -136,4 +122,5 @@ static  void  AppTaskStart (void *p_arg)
         }
     }
 }
+
 

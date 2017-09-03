@@ -9,7 +9,6 @@ Note: ROM libraries are not implemented in this startup code
 Note: C++ destructors of global objects are NOT yet supported in the HIWARE Object File Format.
       To use this feature, please build your application with the ELF object file format.
  *****************************************************/
-/*lint -esym(750, __NO_FLAGS_OFFSET, __NO_MAIN_OFFSET, __NO_STACKOFFSET_OFFSET) */
 /* these macros remove some unused fields in the startup descriptor */
 #define __NO_FLAGS_OFFSET       /* we do not need the flags field in the startup data descriptor */
 #define __NO_MAIN_OFFSET        /* we do not need the main field in the startup data descriptor */
@@ -48,10 +47,10 @@ Note: C++ destructors of global objects are NOT yet supported in the HIWARE Obje
 /***************************************************************************/
 /* __BANKED_COPY_DOWN define:                                              */
 /* by default, the startup code assumes that the startup data structure    */
-/* _startupData, the zero out areas and the .copy section are all 				 */
+/* _startupData, the zero out areas and the .copy section are all          */
 /* allocated in NON_BANKED memory. Especially the .copy section can be     */
-/* if there are many or large RAM areas to initialize.                     */  
-/* for the HCS12X, which also copies the XGATE RAM located code via .copy  */
+/* huge if there are many or huge RAM areas to initialize.                 */  
+/* For the HCS12X, which also copies the XGATE RAM located code via .copy  */
 /* section, the startup code supports to allocate .copy in a banked flash  */
 /* The placement of .copy in the prm file has to be adapted when adding or */
 /* removing the this macro.                                                */
@@ -64,29 +63,35 @@ Note: C++ destructors of global objects are NOT yet supported in the HIWARE Obje
 #define __EXTERN_C
 #endif
 
+/*lint -estring(961,"only preprocessor statements and comments before '#include'") , MISRA 19.1 ADV, non_bank.sgm and default.sgm each contain a conditionally compiled CODE_SEG pragma */
+
 __EXTERN_C void main(void); /* prototype of main function */
 
 #ifndef __ONLY_INIT_SP
 #pragma DATA_SEG __NEAR_SEG STARTUP_DATA /* _startupData can be accessed using 16 bit accesses. */
 /* This is needed because it contains the stack top, and without stack, far data cannot be accessed */
-/*lint -e1065 */
 struct _tagStartup _startupData;  /*   read-only: */
                                   /*   _startupData is allocated in ROM and */
                                   /*   initialized by the linker */
-/*lint +e1065 */
 #pragma DATA_SEG DEFAULT
 #endif /* __ONLY_INIT_SP */
 
 #if defined(FAR_DATA) && (!defined(__HCS12X__) || defined(__BANKED_COPY_DOWN))
+/*lint -e451 non_bank.sgm contains a conditionally compiled CODE_SEG pragma */
 #include "non_bank.sgm"
+/*lint +e451 */
+
 /* the init function must be in non banked memory if banked variables are used */
 /* because _SET_PAGE is called, which may change any page register. */
 
+/*lint -esym(752,_SET_PAGE) , symbol '_SET_PAGE' is referenced in HLI */
 __EXTERN_C void _SET_PAGE(void);  /* the inline assembler needs a prototype */
                                   /* this is a runtime routine with a special */
                                   /* calling convention, do not use it in c code! */
 #else
+/*lint -e451 default.sgm contains a conditionally compiled CODE_SEG pragma */
 #include "default.sgm"
+/*lint +e451 */
 #endif /* defined(FAR_DATA) && (!defined(__HCS12X__) || defined(__BANKED_COPY_DOWN)) */
 
 
@@ -119,7 +124,7 @@ __EXTERN_C void _SET_PAGE(void);  /* the inline assembler needs a prototype */
 #endif
 
 #if defined(_DO_FEED_COP_)
-#define __FEED_COP_IN_HLI()  } __asm movb #0x55, _COP_RST_ADR; __asm movb #0xAA, _COP_RST_ADR; __asm {
+#define __FEED_COP_IN_HLI()  } asm movb #0x55, _COP_RST_ADR; asm movb #0xAA, _COP_RST_ADR; asm {
 #else
 #define __FEED_COP_IN_HLI() /* do nothing */
 #endif
@@ -135,7 +140,7 @@ static void Init(void)
 /*              2) copy initialization data from ROM to RAM     */
 /*              3) call global constructors in C++              */
 /*   called from: _Startup, LibInits                            */
-   __asm {
+   asm {
 ZeroOut:
 #if defined(__HIWARE_OBJECT_FILE_FORMAT__) && defined(__LARGE__)
              LDX   _startupData.pZeroOut:1  ; in the large memory model in the HIWARE format, pZeroOut is a 24 bit pointer
@@ -334,7 +339,7 @@ static void Fini(void)
 #endif
 {
 /* purpose:     1) call global destructors in C++ */
-   __asm {
+   asm {
 #if defined( __BANKED__) || defined(__LARGE__)
 
              LDY   _startupData.nofFiniBodies; load number of cpp.
@@ -368,8 +373,9 @@ done:;
 }
 #endif
 
-
+/*lint -e451 non_bank.sgm contains a conditionally compiled CODE_SEG pragma */
 #include "non_bank.sgm"
+/*lint +e451 */
 
 #pragma MESSAGE DISABLE C12053 /* Stack-pointer change not in debugging-information */
 #pragma NO_FRAME
@@ -404,8 +410,9 @@ __EXTERN_C void _Startup(void) {
                  or directly referenced by the reset vector */
 
    /* initialize the stack pointer */
-   INIT_SP_FROM_STARTUP_DESC(); /*lint !e522 asm code */ /* HLI macro definition in hidef.h */
-
+   /*lint -e{960} , MISRA 14.3 REQ, macro INIT_SP_FROM_STARTUP_DESC() expands to HLI code */ 
+   /*lint -e{522} , MISRA 14.2 REQ, macro INIT_SP_FROM_STARTUP_DESC() expands to HLI code */    
+   INIT_SP_FROM_STARTUP_DESC(); /* HLI macro definition in hidef.h */
 #if defined(_HCS12_SERIALMON)
    /* for Monitor based software remap the RAM & EEPROM to adhere
       to EB386. Edit RAM and EEPROM sections in PRM file to match these. */
@@ -426,6 +433,10 @@ __EXTERN_C void _Startup(void) {
 #endif
 #endif
 
+#if (defined(__MAP_RAM__) || defined(__MAP_FLASH__) || defined(__MAP_EXTERNAL__)) && !defined(__DO_SET_MMCTL1__)
+#define __DO_SET_MMCTL1__
+#endif
+
 
 #if defined(__DO_SET_MMCTL1__)
   /* Set the MMCTL1 byte. Please use for HCS12XE and change the bits according   */
@@ -443,11 +454,17 @@ __EXTERN_C void _Startup(void) {
 
 #define _MMCTL1_SET(value)   ((*(volatile unsigned char*)_MMCTL1_ADR)= (value))
 
-   _MMCTL1_SET(_MMCTL1_BIT_ROMON | _MMCTL1_BIT_EROMON | _MMCTL1_BIT_RAMHM | _MMCTL1_BIT_ROMHM);
-    
+#if defined(__MAP_FLASH__)
+  _MMCTL1_SET(_MMCTL1_BIT_ROMON | _MMCTL1_BIT_EROMON);
+#elif defined(__MAP_EXTERNAL__)
+  _MMCTL1_SET(_MMCTL1_BIT_ROMON | _MMCTL1_BIT_EROMON | _MMCTL1_BIT_ROMHM);
+#else /* RAM */
+  _MMCTL1_SET(_MMCTL1_BIT_ROMON | _MMCTL1_BIT_EROMON | _MMCTL1_BIT_RAMHM | _MMCTL1_BIT_ROMHM);
+#endif    
 #endif
 
 #ifndef __ONLY_INIT_SP
+   /*lint -e{522} , MISRA 14.2 REQ, function Init() contains HLI only */
    Init(); /* zero out, copy down, call constructors */
 #endif
 
@@ -456,7 +473,10 @@ __EXTERN_C void _Startup(void) {
    _ENABLE_COP(1);
 #endif
 
-
    /* call main() */
    main();
 }
+
+/*lint --e{766} , non_bank.sgm is not a regular header file, it contains a conditionally compiled CODE_SEG pragma */
+/*lint +estring(961,"only preprocessor statements and comments before '#include'") */
+/*lint +e451 */
