@@ -283,44 +283,40 @@ void LED_Toggle (CPU_INT08U led)
 *********************************************************************************************************
 */
 
-void  LED_Off (CPU_INT08U led)
+void  LED_On (CPU_INT08U led)
 {
     switch (led) {
         case 0:
-             PORTB &= ~0x0F;
-             break;
-
-        case 1:
              PORTB &= ~0x01;
              break;
              
-        case 2:
+        case 1:
              PORTB &= ~0x02;
              break;
              
-        case 3:
+        case 2:
              PORTB &= ~0x04;
              break;
              
-        case 4:
+        case 3:
              PORTB &= ~0x08;
              break; 
               
-        case 5:
+        case 4:
              PORTB &= ~0x10;
              break;
 
-        case 6:
+        case 5:
              PORTB &= ~0x20;
              break;
              
-        case 7:
+        case 6:
              PORTB &= ~0x40;
-             break;
+             break;   
              
-        case 8:
+        case 7:
              PORTB &= ~0x80;
-             break;             
+             break;           
         
         default:
              break;                                                               
@@ -341,23 +337,23 @@ void  LED_Off (CPU_INT08U led)
 *********************************************************************************************************
 */
 
-void  LED_On (CPU_INT08U led)
+void  LED_Off (CPU_INT08U led)
 {
     switch (led) {
-         case 0:
-             PORTB |= 0x0F;
+        case 0:
+             PORTB |= 0x01;
              break;
 
         case 1:
-             PORTB |= 0x01;
-             break;
-             
-        case 2:
              PORTB |= 0x02;
              break;
              
-        case 3:
+        case 2:
              PORTB |= 0x04;
+             break;
+             
+        case 3:
+             PORTB |= 0x08;
              break;
              
         case 4:
@@ -379,6 +375,11 @@ void  LED_On (CPU_INT08U led)
         default:
              break;                                                  
     }
+}
+
+void  All_LED_Off ()
+{
+  PORTB |= 0xFF;
 }
 
 

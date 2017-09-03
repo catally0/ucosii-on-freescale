@@ -58,28 +58,25 @@ static void SetupXGATE(void) {
 
 
 void main(void) {
+
   /* put your own code here */
-    CPU_INT08U  err;
-      
-SetupXGATE();
-  
+  CPU_INT08U  err;
+    
+  SetupXGATE();
+  BSP_IntDisAll();                                                    /* Disable ALL interrupts to the interrupt controller       */
 
+  OSInit();                                                           /* Initialize uC/OS-II                                      */
 
-  
-    BSP_IntDisAll();                                                    /* Disable ALL interrupts to the interrupt controller       */
-
-    OSInit();                                                           /* Initialize uC/OS-II                                      */
-
-                                                                        /* Create start task                                        */
-    OSTaskCreateExt(AppTaskStart,
-                    NULL,
-                    (OS_STK *)&AppTaskStartStk[APP_TASK_START_STK_SIZE - 1],
-                    APP_TASK_START_PRIO,
-                    APP_TASK_START_PRIO,
-                    (OS_STK *)&AppTaskStartStk[0],
-                    APP_TASK_START_STK_SIZE,
-                    NULL,
-                    OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+                                                                      /* Create start task                                        */
+  OSTaskCreateExt(AppTaskStart,
+                  NULL,
+                  (OS_STK *)&AppTaskStartStk[APP_TASK_START_STK_SIZE - 1],
+                  APP_TASK_START_PRIO,
+                  APP_TASK_START_PRIO,
+                  (OS_STK *)&AppTaskStartStk[0],
+                  APP_TASK_START_STK_SIZE,
+                  NULL,
+                  OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
 
                                                                         /* Assign names to created tasks                            */
 #if OS_TASK_NAME_SIZE > 11
@@ -92,8 +89,7 @@ SetupXGATE();
 static  void  AppTaskStart (void *p_arg)
 {
     CPU_INT08U  i;
-    
-    
+
     (void)p_arg;                                                        /* Prevent compiler warning                                 */
 
     BSP_Init();                                                         /* Initialize the BSP                                       */
@@ -106,19 +102,22 @@ static  void  AppTaskStart (void *p_arg)
     AppProbeInit();                                                     /* Initialize uC/Probe modules                              */
 #endif
     
-    LED_Off(0);                                                         /* Turn on ALL the LEDs                                     */
-
-    while (DEF_TRUE) {                                                  /* Task body, always written as an infinite loop.           */
-        for (i = 1; i <= 8; i++) {
+                                                            /* Turn on ALL the LEDs                                     */
+    All_LED_Off();
+    OSTimeDlyHMSM(0, 0, 0, 1000);
+    
+    while (DEF_TRUE) {                                                   /* Task body, always written as an infinite loop.           */
+        for (i = 0; i < 8; i++) {
+            //LED_On(i);
             LED_On(i);
             OSTimeDlyHMSM(0, 0, 0, 100);
-            LED_Off(i);
+            
         }
         
-        for (i = 8; i >=1; i--) {
-            LED_On(i);
+        for (i = 8; i > 0; i--) {
+            LED_Off(i-1);
             OSTimeDlyHMSM(0, 0, 0, 100);
-            LED_Off(i);
+            //LED_Off(i);
         }
     }
 }

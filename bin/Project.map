@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "H:\OneDrive\Projects\LIN driver\ucosii\bin\Project.abs"
+PROGRAM "H:\OneDrive\Projects\LIN driver\ucosii-on-freescale\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -13,8 +13,8 @@ Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 FILE SECTION
 ---------------------------------------------------------------------------------------------
 MC9S12XEP100.c.o                        Model: BANKED,        Lang: ANSI-C
-main.c.o                                Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+main.c.o                                Model: BANKED,        Lang: ANSI-C
 rtshc12.c.o (ansixbi.lib)               Model: BANKED,        Lang: ANSI-C
 xgate.cxgate.o                          Model: Unknown Model, Lang: ANSI-C
 FCONV.C.o (ansixb.lib)                  Model: BANKED,        Lang: ANSI-C
@@ -66,7 +66,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata1                          89     R     0xC160     0xC1B8   ROM_C000
 NON_BANKED                      1134     R     0xC1B9     0xC626   ROM_C000
 .copy                              2     R     0xC627     0xC628   ROM_C000
-.text                           5567     R   0xFE8000   0xFE95BE   PAGE_FE
+.text                           5578     R   0xFE8000   0xFE95C9   PAGE_FE
 XGATE_VECTORS                    452     R   0xE08800   0xE089C3   PAGE_E0
 XGATE_CODE                        28     R   0xE089C4   0xE089DF   PAGE_E0
 .stack                           256   R/W     0x2000     0x20FF   RAM
@@ -815,10 +815,10 @@ XGATE_STK_H                        2   N/I   0xF810FE   0xF810FF   RAM_XGATE_STK
 .abs_section_ff10                240     R     0xFF10     0xFFFF   .absSeg738
 .bss                            1088   R/W     0x2102     0x2541   RAM
 .common                         3758   R/W     0x2542     0x33EF   RAM
-cpu_a.s._SEC000000                 8     R   0xFE95BF   0xFE95C6   PAGE_FE
+cpu_a.s._SEC000000                 8     R   0xFE95CA   0xFE95D1   PAGE_FE
 
 Summary of section sizes per section type:
-READ_ONLY (R):        1EC0 (dec:     7872)
+READ_ONLY (R):        1ECB (dec:     7883)
 READ_WRITE (R/W):     13F2 (dec:     5106)
 NO_INIT (N/I):         387 (dec:      903)
 
@@ -1572,25 +1572,25 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _TIM_TC6                                   3EC       2       2       0   .abs_section_3ec
      _TIM_TC7                                   3EE       2       2       0   .abs_section_3ee
      _TIM_PACNT                                 3F2       2       2       0   .abs_section_3f2
+MODULE:                 -- Start12.c.o --
+- PROCEDURES:
+     Init                                    FE8000      3C      60       2   .text       
+     _Startup                                  C000       F      15       1   .init       
+- VARIABLES:
+     _startupData                              C00F       6       6       3   .startData  
+- LABELS:
+     __SEG_END_SSTACK                          2100       0       0       1               
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     SetupXGATE                              FE8000      35      53       2   .text       
-     main                                    FE8035      49      73       2   .text       
-     AppTaskStart                            FE807E      48      72       3   .text       
+     SetupXGATE                              FE803C      35      53       2   .text       
+     main                                    FE8071      49      73       2   .text       
+     AppTaskStart                            FE80BA      53      83       3   .text       
 - VARIABLES:
      STRING.Start.Task.1                       C160       B      11       1   .rodata1    
      AppTaskStartStk                           2102     200     512       2   .bss        
      shared_counter                            2100       2       2       2   SHARED_DATA 
      XGATE_STACK_L                           F8107E       2       2       1   XGATE_STK_L 
      XGATE_STACK_H                           F810FE       2       2       1   XGATE_STK_H 
-MODULE:                 -- Start12.c.o --
-- PROCEDURES:
-     Init                                    FE80C6      3C      60       2   .text       
-     _Startup                                  C000       F      15       1   .init       
-- VARIABLES:
-     _startupData                              C00F       6       6       3   .startData  
-- LABELS:
-     __SEG_END_SSTACK                          2100       0       0       1               
 MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
 - PROCEDURES:
      _BSHL                                     C1B9       8       8       3   NON_BANKED  
@@ -1638,47 +1638,48 @@ MODULE:                 -- VREGS.C.o (ansixb.lib) --
 - VARIABLES:
 MODULE:                 -- app_hooks.c.o --
 - PROCEDURES:
-     App_TaskCreateHook                      FE8102       5       5       2   .text       
-     App_TaskIdleHook                        FE8107       1       1       2   .text       
-     App_TaskStatHook                        FE8108       1       1       2   .text       
-     App_TaskSwHook                          FE8109       5       5       2   .text       
-     App_TCBInitHook                         FE810E       1       1       2   .text       
-     App_TimeTickHook                        FE810F       5       5       2   .text       
+     App_TaskCreateHook                      FE810D       5       5       2   .text       
+     App_TaskIdleHook                        FE8112       1       1       2   .text       
+     App_TaskStatHook                        FE8113       1       1       2   .text       
+     App_TaskSwHook                          FE8114       5       5       2   .text       
+     App_TCBInitHook                         FE8119       1       1       2   .text       
+     App_TimeTickHook                        FE811A       5       5       2   .text       
 - VARIABLES:
 MODULE:                 -- app_probe.c.o --
 - PROCEDURES:
-     AppProbeInit                            FE8114      19      25       2   .text       
-     AppProbeCallback                        FE812D      10      16       3   .text       
+     AppProbeInit                            FE811F      19      25       2   .text       
+     AppProbeCallback                        FE8138      10      16       3   .text       
 - VARIABLES:
      Probe_Counts                              2302       4       4       4   .bss        
 MODULE:                 -- bsp.c.o --
 - PROCEDURES:
-     BSP_Init                                FE813D      17      23       2   .text       
-     XGATE_Init                              FE8154      1C      28       2   .text       
-     PLL_Init                                FE8170      1A      26       2   .text       
-     BSP_CPU_ClkFreq                         FE818A       7       7       2   .text       
-     BSP_IntDisAll                           FE8191       5       5       2   .text       
-     LED_Init                                FE8196       5       5       2   .text       
-     LED_Off                                 FE819B      37      55       4   .text       
-     LED_On                                  FE81D2      32      50       2   .text       
-     OSTickISR_Init                          FE8204      3A      58       2   .text       
-     OSTickISR_Handler                       FE823E       F      15       2   .text       
-     BSP_SetECT_Prescaler                    FE824D      56      86       2   .text       
-     OSProbe_TmrInit                         FE82A3       1       1       2   .text       
-     OSProbe_TmrRd                           FE82A4       5       5       2   .text       
+     BSP_Init                                FE8148      17      23       2   .text       
+     XGATE_Init                              FE815F      1C      28       2   .text       
+     PLL_Init                                FE817B      1A      26       2   .text       
+     BSP_CPU_ClkFreq                         FE8195       7       7       2   .text       
+     BSP_IntDisAll                           FE819C       5       5       2   .text       
+     LED_Init                                FE81A1       5       5       2   .text       
+     LED_On                                  FE81A6      32      50       2   .text       
+     LED_Off                                 FE81D8      32      50       2   .text       
+     All_LED_Off                             FE820A       5       5       2   .text       
+     OSTickISR_Init                          FE820F      3A      58       2   .text       
+     OSTickISR_Handler                       FE8249       F      15       2   .text       
+     BSP_SetECT_Prescaler                    FE8258      56      86       2   .text       
+     OSProbe_TmrInit                         FE82AE       1       1       2   .text       
+     OSProbe_TmrRd                           FE82AF       5       5       2   .text       
 - VARIABLES:
      OSTickCnts                                2306       2       2       2   .bss        
 MODULE:                 -- os_probe.c.o --
 - PROCEDURES:
-     OSProbe_Init                            FE82A9      22      34       2   .text       
-     OSProbe_InitOS                          FE82CB      3A      58       2   .text       
-     OSProbe_SetCallback                     FE8305       7       7       4   .text       
-     OSProbe_SetDelay                        FE830C       4       4       4   .text       
-     OSProbe_TaskCreateHook                  FE8310      17      23       2   .text       
-     OSProbe_TaskSwHook                      FE8327      31      49       2   .text       
-     OSProbe_TickHook                        FE8358       5       5       2   .text       
-     OSProbe_TimeGetCycles                   FE835D      33      51       6   .text       
-     OSProbe_Task                            FE8390     169     361       6   .text       
+     OSProbe_Init                            FE82B4      22      34       2   .text       
+     OSProbe_InitOS                          FE82D6      3A      58       2   .text       
+     OSProbe_SetCallback                     FE8310       7       7       4   .text       
+     OSProbe_SetDelay                        FE8317       4       4       4   .text       
+     OSProbe_TaskCreateHook                  FE831B      17      23       2   .text       
+     OSProbe_TaskSwHook                      FE8332      31      49       2   .text       
+     OSProbe_TickHook                        FE8363       5       5       2   .text       
+     OSProbe_TimeGetCycles                   FE8368      33      51       6   .text       
+     OSProbe_Task                            FE839B     169     361       6   .text       
 - VARIABLES:
      STRING.Probe.OS.PlugIn.1                  C16B      10      16       1   .rodata1    
      OSProbe_TaskStk                           2308     100     256       2   .bss        
@@ -1692,7 +1693,7 @@ MODULE:                 -- os_probe.c.o --
      OSProbe_TmrCntsPrev                       25EC       2       2       3   .common     
 MODULE:                 -- probe_com.c.o --
 - PROCEDURES:
-     ProbeCom_Init                           FE84F9      33      51       2   .text       
+     ProbeCom_Init                           FE8504      33      51       2   .text       
 - VARIABLES:
      ProbeCom_EndiannessTest                   24A8       4       4       2   .bss        
      ProbeCom_InfoHndlr                        24AC       3       3       2   .bss        
@@ -1703,11 +1704,11 @@ MODULE:                 -- probe_com.c.o --
      ProbeCom_ErrPktCtr                        25FE       4       4       2   .common     
 MODULE:                 -- probe_rs232.c.o --
 - PROCEDURES:
-     ProbeRS232_RxHandler                    FE852C      AB     171       2   .text       
-     ProbeRS232_TxHandler                    FE85D7      C7     199       3   .text       
-     ProbeRS232_RxPkt                        FE869E       5       5       2   .text       
-     ProbeRS232_RxStoINT8U                   FE86A3      19      25       2   .text       
-     ProbeRS232_RxBufClr                     FE86BC       5       5       2   .text       
+     ProbeRS232_RxHandler                    FE8537      AB     171       2   .text       
+     ProbeRS232_TxHandler                    FE85E2      C7     199       3   .text       
+     ProbeRS232_RxPkt                        FE86A9       5       5       2   .text       
+     ProbeRS232_RxStoINT8U                   FE86AE      19      25       2   .text       
+     ProbeRS232_RxBufClr                     FE86C7       5       5       2   .text       
 - VARIABLES:
      ProbeRS232_RxState                        24AF       1       1       4   .bss        
      ProbeRS232_RxRemainLen                    24B0       2       2       6   .bss        
@@ -1729,14 +1730,14 @@ MODULE:                 -- probe_rs232_ba.s.o --
 - VARIABLES:
 MODULE:                 -- probe_rs232_os.c.o --
 - PROCEDURES:
-     ProbeRS232_OS_Post                      FE86C1       8       8       2   .text       
+     ProbeRS232_OS_Post                      FE86CC       8       8       2   .text       
 - VARIABLES:
      ProbeRS232_OS_Sem                         253E       2       2       1   .bss        
 MODULE:                 -- probe_rs232c.c.o --
 - PROCEDURES:
-     ProbeRS232_RxTxISRHandler               FE86C9      19      25       2   .text       
-     ProbeRS232_Tx1                          FE86E2       3       3       2   .text       
-     ProbeRS232_TxIntDis                     FE86E5       4       4       2   .text       
+     ProbeRS232_RxTxISRHandler               FE86D4      19      25       2   .text       
+     ProbeRS232_Tx1                          FE86ED       3       3       2   .text       
+     ProbeRS232_TxIntDis                     FE86F0       4       4       2   .text       
 - VARIABLES:
 MODULE:                 -- vectors_s12xep.c.o --
 - PROCEDURES:
@@ -1860,37 +1861,37 @@ MODULE:                 -- vectors_s12xep.c.o --
      _vect                                     FF10      F0     240       0   .abs_section_ff10
 MODULE:                 -- cpu_a.s.o --
 - PROCEDURES:
-     CPU_SR_Save                             FE95BF       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          FE95C4       3       3       0   cpu_a.s._SEC000000
+     CPU_SR_Save                             FE95CA       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          FE95CF       3       3       0   cpu_a.s._SEC000000
 - VARIABLES:
 MODULE:                 -- os_core.c.o --
 - PROCEDURES:
-     OSEventNameSet                          FE86E9      5A      90       4   .text       
-     OSInit                                  FE8743      35      53       2   .text       
-     OSIntExit                               FE8778      60      96       4   .text       
-     OSStart                                 FE87D8      25      37       2   .text       
-     OSStatInit                              FE87FD      36      54       2   .text       
-     OSTimeTick                              FE8833      A2     162       2   .text       
-     OS_EventTaskRdy                         FE88D5      7D     125       2   .text       
-     OS_EventTaskWait                        FE8952      41      65       2   .text       
-     OS_EventTaskRemove                      FE8993      2E      46       4   .text       
-     OS_EventTaskRemoveMulti                 FE89C1      49      73       2   .text       
-     OS_EventWaitListInit                    FE8A0A       F      15       2   .text       
-     OS_InitEventList                        FE8A19      40      64       2   .text       
-     OS_InitMisc                             FE8A59      30      48       2   .text       
-     OS_InitRdyList                          FE8A89      1D      29       2   .text       
-     OS_InitTaskIdle                         FE8AA6      3B      59       2   .text       
-     OS_InitTaskStat                         FE8AE1      3B      59       2   .text       
-     OS_InitTCBList                          FE8B1C      49      73       2   .text       
-     OS_MemClr                               FE8B65       D      13      16   .text       
-     OS_Sched                                FE8B72      51      81      10   .text       
-     OS_SchedNew                             FE8BC3      16      22       6   .text       
-     OS_StrCopy                              FE8BD9      18      24       4   .text       
-     OS_StrLen                               FE8BF1       B      11       4   .text       
-     OS_TaskIdle                             FE8BFC      1F      31       3   .text       
-     OS_TaskStat                             FE8C1B      7A     122       3   .text       
-     OS_TaskStatStkChk                       FE8C95      43      67       2   .text       
-     OS_TCBInit                              FE8CD8      F7     247       2   .text       
+     OSEventNameSet                          FE86F4      5A      90       4   .text       
+     OSInit                                  FE874E      35      53       2   .text       
+     OSIntExit                               FE8783      60      96       4   .text       
+     OSStart                                 FE87E3      25      37       2   .text       
+     OSStatInit                              FE8808      36      54       2   .text       
+     OSTimeTick                              FE883E      A2     162       2   .text       
+     OS_EventTaskRdy                         FE88E0      7D     125       2   .text       
+     OS_EventTaskWait                        FE895D      41      65       2   .text       
+     OS_EventTaskRemove                      FE899E      2E      46       4   .text       
+     OS_EventTaskRemoveMulti                 FE89CC      49      73       2   .text       
+     OS_EventWaitListInit                    FE8A15       F      15       2   .text       
+     OS_InitEventList                        FE8A24      40      64       2   .text       
+     OS_InitMisc                             FE8A64      30      48       2   .text       
+     OS_InitRdyList                          FE8A94      1D      29       2   .text       
+     OS_InitTaskIdle                         FE8AB1      3B      59       2   .text       
+     OS_InitTaskStat                         FE8AEC      3B      59       2   .text       
+     OS_InitTCBList                          FE8B27      49      73       2   .text       
+     OS_MemClr                               FE8B70       D      13      16   .text       
+     OS_Sched                                FE8B7D      51      81      10   .text       
+     OS_SchedNew                             FE8BCE      16      22       6   .text       
+     OS_StrCopy                              FE8BE4      18      24       4   .text       
+     OS_StrLen                               FE8BFC       B      11       4   .text       
+     OS_TaskIdle                             FE8C07      1F      31       3   .text       
+     OS_TaskStat                             FE8C26      7A     122       3   .text       
+     OS_TaskStatStkChk                       FE8CA0      43      67       2   .text       
+     OS_TCBInit                              FE8CE3      F7     247       2   .text       
 - VARIABLES:
      OSUnMapTbl                                C060     100     256       2   .rodata     
      STRING.uC.OS.II.Idle.1                    C17B       E      14       1   .rodata1    
@@ -1948,62 +1949,62 @@ MODULE:                 -- os_cpu_a.s.o --
 - VARIABLES:
 MODULE:                 -- os_cpu_c.c.o --
 - PROCEDURES:
-     OSInitHookBegin                         FE8DCF       5       5       2   .text       
-     OSInitHookEnd                           FE8DD4       1       1       2   .text       
-     OSTaskCreateHook                        FE8DD5       5       5       2   .text       
-     OSTaskIdleHook                          FE8DDA       5       5       2   .text       
-     OSTaskStatHook                          FE8DDF       5       5       2   .text       
-     OSTaskStkInit                           FE8DE4      54      84       2   .text       
-     OSTaskSwHook                            FE8E38       5       5       6   .text       
-     OSTCBInitHook                           FE8E3D       5       5       2   .text       
-     OSTimeTickHook                          FE8E42      19      25       2   .text       
+     OSInitHookBegin                         FE8DDA       5       5       2   .text       
+     OSInitHookEnd                           FE8DDF       1       1       2   .text       
+     OSTaskCreateHook                        FE8DE0       5       5       2   .text       
+     OSTaskIdleHook                          FE8DE5       5       5       2   .text       
+     OSTaskStatHook                          FE8DEA       5       5       2   .text       
+     OSTaskStkInit                           FE8DEF      54      84       2   .text       
+     OSTaskSwHook                            FE8E43       5       5       6   .text       
+     OSTCBInitHook                           FE8E48       5       5       2   .text       
+     OSTimeTickHook                          FE8E4D      19      25       2   .text       
 - VARIABLES:
      OSTmrCtr                                  2540       2       2       4   .bss        
 MODULE:                 -- os_dbg_r.c.o --
 - PROCEDURES:
-     OSDebugInit                             FE8E5B       1       1       2   .text       
+     OSDebugInit                             FE8E66       1       1       2   .text       
 - VARIABLES:
 MODULE:                 -- os_flag.c.o --
 - PROCEDURES:
-     OS_FlagInit                             FE8E5C      40      64       2   .text       
+     OS_FlagInit                             FE8E67      40      64       2   .text       
 - VARIABLES:
 MODULE:                 -- os_mem.c.o --
 - PROCEDURES:
-     OS_MemInit                              FE8E9C      47      71       2   .text       
+     OS_MemInit                              FE8EA7      47      71       2   .text       
 - VARIABLES:
 MODULE:                 -- os_q.c.o --
 - PROCEDURES:
-     OS_QInit                                FE8EE3      33      51       2   .text       
+     OS_QInit                                FE8EEE      33      51       2   .text       
 - VARIABLES:
 MODULE:                 -- os_sem.c.o --
 - PROCEDURES:
-     OSSemCreate                             FE8F16      42      66       4   .text       
-     OSSemPend                               FE8F58      A7     167       4   .text       
-     OSSemPost                               FE8FFF      51      81       6   .text       
+     OSSemCreate                             FE8F21      42      66       4   .text       
+     OSSemPend                               FE8F63      A7     167       4   .text       
+     OSSemPost                               FE900A      51      81       6   .text       
 - VARIABLES:
 MODULE:                 -- os_task.c.o --
 - PROCEDURES:
-     OSTaskCreateExt                         FE9050      B6     182      11   .text       
-     OSTaskNameSet                           FE9106      6D     109      10   .text       
-     OSTaskStkChk                            FE9173      9A     154       2   .text       
-     OSTaskSuspend                           FE920D      7C     124       2   .text       
-     OS_TaskStkClr                           FE9289      26      38       2   .text       
+     OSTaskCreateExt                         FE905B      B6     182      11   .text       
+     OSTaskNameSet                           FE9111      6D     109      10   .text       
+     OSTaskStkChk                            FE917E      9A     154       2   .text       
+     OSTaskSuspend                           FE9218      7C     124       2   .text       
+     OS_TaskStkClr                           FE9294      26      38       2   .text       
 - VARIABLES:
 MODULE:                 -- os_time.c.o --
 - PROCEDURES:
-     OSTimeDly                               FE92AF      40      64      12   .text       
-     OSTimeDlyHMSM                           FE92EF      70     112       4   .text       
+     OSTimeDly                               FE92BA      40      64      12   .text       
+     OSTimeDlyHMSM                           FE92FA      70     112       6   .text       
 - VARIABLES:
 MODULE:                 -- os_tmr.c.o --
 - PROCEDURES:
-     OSTmrSignal                             FE935F       8       8       2   .text       
-     OSTmr_Init                              FE9367      A0     160       2   .text       
-     OSTmr_InitTask                          FE9407      3B      59       2   .text       
-     OSTmr_Link                              FE9442      84     132       2   .text       
-     OSTmr_Unlink                            FE94C6      44      68       2   .text       
-     OSTmr_Lock                              FE950A      13      19       2   .text       
-     OSTmr_Unlock                            FE951D       8       8       2   .text       
-     OSTmr_Task                              FE9525      9A     154       4   .text       
+     OSTmrSignal                             FE936A       8       8       2   .text       
+     OSTmr_Init                              FE9372      A0     160       2   .text       
+     OSTmr_InitTask                          FE9412      3B      59       2   .text       
+     OSTmr_Link                              FE944D      84     132       2   .text       
+     OSTmr_Unlink                            FE94D1      44      68       2   .text       
+     OSTmr_Lock                              FE9515      13      19       2   .text       
+     OSTmr_Unlock                            FE9528       8       8       2   .text       
+     OSTmr_Task                              FE9530      9A     154       4   .text       
 - VARIABLES:
      STRING.OS.TmrLock.1                       C197       B      11       1   .rodata1    
      STRING.OS.TmrSig.2                        C1A2       A      10       1   .rodata1    
@@ -2014,8 +2015,8 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   MC9S12XEP100.c.o                           899      0      0
-  main.c.o                                   518    198     11
   Start12.c.o                                  0     75      0
+  main.c.o                                   518    209     11
   rtshc12.c.o (ansixbi.lib)                    0    343      0
   xgate.cxgate.o                               2     28    452
   FCONV.C.o (ansixb.lib)                       0     48      0
@@ -2050,26 +2051,27 @@ MODULE STATISTIC
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  SetupXGATE main AppTaskStart Init App_TaskCreateHook App_TaskIdleHook 
+  Init SetupXGATE main AppTaskStart App_TaskCreateHook App_TaskIdleHook 
   App_TaskStatHook App_TaskSwHook App_TCBInitHook App_TimeTickHook AppProbeInit 
   AppProbeCallback BSP_Init XGATE_Init PLL_Init BSP_CPU_ClkFreq BSP_IntDisAll 
-  LED_Init LED_Off LED_On OSTickISR_Init OSTickISR_Handler BSP_SetECT_Prescaler 
-  OSProbe_TmrInit OSProbe_TmrRd OSProbe_Init OSProbe_InitOS OSProbe_SetCallback 
-  OSProbe_SetDelay OSProbe_TaskCreateHook OSProbe_TaskSwHook OSProbe_TickHook 
-  OSProbe_TimeGetCycles OSProbe_Task ProbeCom_Init ProbeRS232_RxHandler 
-  ProbeRS232_TxHandler ProbeRS232_RxPkt ProbeRS232_RxStoINT8U 
-  ProbeRS232_RxBufClr ProbeRS232_OS_Post ProbeRS232_RxTxISRHandler 
-  ProbeRS232_Tx1 ProbeRS232_TxIntDis OSEventNameSet OSInit OSIntExit OSStart 
-  OSStatInit OSTimeTick OS_EventTaskRdy OS_EventTaskWait OS_EventTaskRemove 
-  OS_EventTaskRemoveMulti OS_EventWaitListInit OS_InitEventList OS_InitMisc 
-  OS_InitRdyList OS_InitTaskIdle OS_InitTaskStat OS_InitTCBList OS_MemClr 
-  OS_Sched OS_SchedNew OS_StrCopy OS_StrLen OS_TaskIdle OS_TaskStat 
-  OS_TaskStatStkChk OS_TCBInit OSInitHookBegin OSInitHookEnd OSTaskCreateHook 
-  OSTaskIdleHook OSTaskStatHook OSTaskStkInit OSTaskSwHook OSTCBInitHook 
-  OSTimeTickHook OSDebugInit OS_FlagInit OS_MemInit OS_QInit OSSemCreate 
-  OSSemPend OSSemPost OSTaskCreateExt OSTaskNameSet OSTaskStkChk OSTaskSuspend 
-  OS_TaskStkClr OSTimeDly OSTimeDlyHMSM OSTmrSignal OSTmr_Init OSTmr_InitTask 
-  OSTmr_Link OSTmr_Unlink OSTmr_Lock OSTmr_Unlock OSTmr_Task 
+  LED_Init LED_On LED_Off All_LED_Off OSTickISR_Init OSTickISR_Handler 
+  BSP_SetECT_Prescaler OSProbe_TmrInit OSProbe_TmrRd OSProbe_Init 
+  OSProbe_InitOS OSProbe_SetCallback OSProbe_SetDelay OSProbe_TaskCreateHook 
+  OSProbe_TaskSwHook OSProbe_TickHook OSProbe_TimeGetCycles OSProbe_Task 
+  ProbeCom_Init ProbeRS232_RxHandler ProbeRS232_TxHandler ProbeRS232_RxPkt 
+  ProbeRS232_RxStoINT8U ProbeRS232_RxBufClr ProbeRS232_OS_Post 
+  ProbeRS232_RxTxISRHandler ProbeRS232_Tx1 ProbeRS232_TxIntDis OSEventNameSet 
+  OSInit OSIntExit OSStart OSStatInit OSTimeTick OS_EventTaskRdy 
+  OS_EventTaskWait OS_EventTaskRemove OS_EventTaskRemoveMulti 
+  OS_EventWaitListInit OS_InitEventList OS_InitMisc OS_InitRdyList 
+  OS_InitTaskIdle OS_InitTaskStat OS_InitTCBList OS_MemClr OS_Sched OS_SchedNew 
+  OS_StrCopy OS_StrLen OS_TaskIdle OS_TaskStat OS_TaskStatStkChk OS_TCBInit 
+  OSInitHookBegin OSInitHookEnd OSTaskCreateHook OSTaskIdleHook OSTaskStatHook 
+  OSTaskStkInit OSTaskSwHook OSTCBInitHook OSTimeTickHook OSDebugInit 
+  OS_FlagInit OS_MemInit OS_QInit OSSemCreate OSSemPend OSSemPost 
+  OSTaskCreateExt OSTaskNameSet OSTaskStkChk OSTaskSuspend OS_TaskStkClr 
+  OSTimeDly OSTimeDlyHMSM OSTmrSignal OSTmr_Init OSTmr_InitTask OSTmr_Link 
+  OSTmr_Unlink OSTmr_Lock OSTmr_Unlock OSTmr_Task 
 SECTION: ".bss"
   AppTaskStartStk Probe_Counts OSTickCnts OSProbe_TaskStk cycles_dif.2 
   cycles_tot_last.3 ProbeCom_EndiannessTest ProbeCom_InfoHndlr 
@@ -4606,109 +4608,110 @@ OBJECT LIST SORTED BY ADDRESS
      XGATE_STACK_L                           F8107E       2       2       1   XGATE_STK_L 
      XGATE_STACK_H                           F810FE       2       2       1   XGATE_STK_H 
      MyData                                  F81100       2       2       1   XGATE_DATA  
-     SetupXGATE                              FE8000      35      53       2   .text       
-     main                                    FE8035      49      73       2   .text       
-     AppTaskStart                            FE807E      48      72       3   .text       
-     Init                                    FE80C6      3C      60       2   .text       
-     App_TaskCreateHook                      FE8102       5       5       2   .text       
-     App_TaskIdleHook                        FE8107       1       1       2   .text       
-     App_TaskStatHook                        FE8108       1       1       2   .text       
-     App_TaskSwHook                          FE8109       5       5       2   .text       
-     App_TCBInitHook                         FE810E       1       1       2   .text       
-     App_TimeTickHook                        FE810F       5       5       2   .text       
-     AppProbeInit                            FE8114      19      25       2   .text       
-     AppProbeCallback                        FE812D      10      16       3   .text       
-     BSP_Init                                FE813D      17      23       2   .text       
-     XGATE_Init                              FE8154      1C      28       2   .text       
-     PLL_Init                                FE8170      1A      26       2   .text       
-     BSP_CPU_ClkFreq                         FE818A       7       7       2   .text       
-     BSP_IntDisAll                           FE8191       5       5       2   .text       
-     LED_Init                                FE8196       5       5       2   .text       
-     LED_Off                                 FE819B      37      55       4   .text       
-     LED_On                                  FE81D2      32      50       2   .text       
-     OSTickISR_Init                          FE8204      3A      58       2   .text       
-     OSTickISR_Handler                       FE823E       F      15       2   .text       
-     BSP_SetECT_Prescaler                    FE824D      56      86       2   .text       
-     OSProbe_TmrInit                         FE82A3       1       1       2   .text       
-     OSProbe_TmrRd                           FE82A4       5       5       2   .text       
-     OSProbe_Init                            FE82A9      22      34       2   .text       
-     OSProbe_InitOS                          FE82CB      3A      58       2   .text       
-     OSProbe_SetCallback                     FE8305       7       7       4   .text       
-     OSProbe_SetDelay                        FE830C       4       4       4   .text       
-     OSProbe_TaskCreateHook                  FE8310      17      23       2   .text       
-     OSProbe_TaskSwHook                      FE8327      31      49       2   .text       
-     OSProbe_TickHook                        FE8358       5       5       2   .text       
-     OSProbe_TimeGetCycles                   FE835D      33      51       6   .text       
-     OSProbe_Task                            FE8390     169     361       6   .text       
-     ProbeCom_Init                           FE84F9      33      51       2   .text       
-     ProbeRS232_RxHandler                    FE852C      AB     171       2   .text       
-     ProbeRS232_TxHandler                    FE85D7      C7     199       3   .text       
-     ProbeRS232_RxPkt                        FE869E       5       5       2   .text       
-     ProbeRS232_RxStoINT8U                   FE86A3      19      25       2   .text       
-     ProbeRS232_RxBufClr                     FE86BC       5       5       2   .text       
-     ProbeRS232_OS_Post                      FE86C1       8       8       2   .text       
-     ProbeRS232_RxTxISRHandler               FE86C9      19      25       2   .text       
-     ProbeRS232_Tx1                          FE86E2       3       3       2   .text       
-     ProbeRS232_TxIntDis                     FE86E5       4       4       2   .text       
-     OSEventNameSet                          FE86E9      5A      90       4   .text       
-     OSInit                                  FE8743      35      53       2   .text       
-     OSIntExit                               FE8778      60      96       4   .text       
-     OSStart                                 FE87D8      25      37       2   .text       
-     OSStatInit                              FE87FD      36      54       2   .text       
-     OSTimeTick                              FE8833      A2     162       2   .text       
-     OS_EventTaskRdy                         FE88D5      7D     125       2   .text       
-     OS_EventTaskWait                        FE8952      41      65       2   .text       
-     OS_EventTaskRemove                      FE8993      2E      46       4   .text       
-     OS_EventTaskRemoveMulti                 FE89C1      49      73       2   .text       
-     OS_EventWaitListInit                    FE8A0A       F      15       2   .text       
-     OS_InitEventList                        FE8A19      40      64       2   .text       
-     OS_InitMisc                             FE8A59      30      48       2   .text       
-     OS_InitRdyList                          FE8A89      1D      29       2   .text       
-     OS_InitTaskIdle                         FE8AA6      3B      59       2   .text       
-     OS_InitTaskStat                         FE8AE1      3B      59       2   .text       
-     OS_InitTCBList                          FE8B1C      49      73       2   .text       
-     OS_MemClr                               FE8B65       D      13      16   .text       
-     OS_Sched                                FE8B72      51      81      10   .text       
-     OS_SchedNew                             FE8BC3      16      22       6   .text       
-     OS_StrCopy                              FE8BD9      18      24       4   .text       
-     OS_StrLen                               FE8BF1       B      11       4   .text       
-     OS_TaskIdle                             FE8BFC      1F      31       3   .text       
-     OS_TaskStat                             FE8C1B      7A     122       3   .text       
-     OS_TaskStatStkChk                       FE8C95      43      67       2   .text       
-     OS_TCBInit                              FE8CD8      F7     247       2   .text       
-     OSInitHookBegin                         FE8DCF       5       5       2   .text       
-     OSInitHookEnd                           FE8DD4       1       1       2   .text       
-     OSTaskCreateHook                        FE8DD5       5       5       2   .text       
-     OSTaskIdleHook                          FE8DDA       5       5       2   .text       
-     OSTaskStatHook                          FE8DDF       5       5       2   .text       
-     OSTaskStkInit                           FE8DE4      54      84       2   .text       
-     OSTaskSwHook                            FE8E38       5       5       6   .text       
-     OSTCBInitHook                           FE8E3D       5       5       2   .text       
-     OSTimeTickHook                          FE8E42      19      25       2   .text       
-     OSDebugInit                             FE8E5B       1       1       2   .text       
-     OS_FlagInit                             FE8E5C      40      64       2   .text       
-     OS_MemInit                              FE8E9C      47      71       2   .text       
-     OS_QInit                                FE8EE3      33      51       2   .text       
-     OSSemCreate                             FE8F16      42      66       4   .text       
-     OSSemPend                               FE8F58      A7     167       4   .text       
-     OSSemPost                               FE8FFF      51      81       6   .text       
-     OSTaskCreateExt                         FE9050      B6     182      11   .text       
-     OSTaskNameSet                           FE9106      6D     109      10   .text       
-     OSTaskStkChk                            FE9173      9A     154       2   .text       
-     OSTaskSuspend                           FE920D      7C     124       2   .text       
-     OS_TaskStkClr                           FE9289      26      38       2   .text       
-     OSTimeDly                               FE92AF      40      64      12   .text       
-     OSTimeDlyHMSM                           FE92EF      70     112       4   .text       
-     OSTmrSignal                             FE935F       8       8       2   .text       
-     OSTmr_Init                              FE9367      A0     160       2   .text       
-     OSTmr_InitTask                          FE9407      3B      59       2   .text       
-     OSTmr_Link                              FE9442      84     132       2   .text       
-     OSTmr_Unlink                            FE94C6      44      68       2   .text       
-     OSTmr_Lock                              FE950A      13      19       2   .text       
-     OSTmr_Unlock                            FE951D       8       8       2   .text       
-     OSTmr_Task                              FE9525      9A     154       4   .text       
-     CPU_SR_Save                             FE95BF       5       5       2   cpu_a.s._SEC000000
-     CPU_SR_Restore                          FE95C4       3       3       0   cpu_a.s._SEC000000
+     Init                                    FE8000      3C      60       2   .text       
+     SetupXGATE                              FE803C      35      53       2   .text       
+     main                                    FE8071      49      73       2   .text       
+     AppTaskStart                            FE80BA      53      83       3   .text       
+     App_TaskCreateHook                      FE810D       5       5       2   .text       
+     App_TaskIdleHook                        FE8112       1       1       2   .text       
+     App_TaskStatHook                        FE8113       1       1       2   .text       
+     App_TaskSwHook                          FE8114       5       5       2   .text       
+     App_TCBInitHook                         FE8119       1       1       2   .text       
+     App_TimeTickHook                        FE811A       5       5       2   .text       
+     AppProbeInit                            FE811F      19      25       2   .text       
+     AppProbeCallback                        FE8138      10      16       3   .text       
+     BSP_Init                                FE8148      17      23       2   .text       
+     XGATE_Init                              FE815F      1C      28       2   .text       
+     PLL_Init                                FE817B      1A      26       2   .text       
+     BSP_CPU_ClkFreq                         FE8195       7       7       2   .text       
+     BSP_IntDisAll                           FE819C       5       5       2   .text       
+     LED_Init                                FE81A1       5       5       2   .text       
+     LED_On                                  FE81A6      32      50       2   .text       
+     LED_Off                                 FE81D8      32      50       2   .text       
+     All_LED_Off                             FE820A       5       5       2   .text       
+     OSTickISR_Init                          FE820F      3A      58       2   .text       
+     OSTickISR_Handler                       FE8249       F      15       2   .text       
+     BSP_SetECT_Prescaler                    FE8258      56      86       2   .text       
+     OSProbe_TmrInit                         FE82AE       1       1       2   .text       
+     OSProbe_TmrRd                           FE82AF       5       5       2   .text       
+     OSProbe_Init                            FE82B4      22      34       2   .text       
+     OSProbe_InitOS                          FE82D6      3A      58       2   .text       
+     OSProbe_SetCallback                     FE8310       7       7       4   .text       
+     OSProbe_SetDelay                        FE8317       4       4       4   .text       
+     OSProbe_TaskCreateHook                  FE831B      17      23       2   .text       
+     OSProbe_TaskSwHook                      FE8332      31      49       2   .text       
+     OSProbe_TickHook                        FE8363       5       5       2   .text       
+     OSProbe_TimeGetCycles                   FE8368      33      51       6   .text       
+     OSProbe_Task                            FE839B     169     361       6   .text       
+     ProbeCom_Init                           FE8504      33      51       2   .text       
+     ProbeRS232_RxHandler                    FE8537      AB     171       2   .text       
+     ProbeRS232_TxHandler                    FE85E2      C7     199       3   .text       
+     ProbeRS232_RxPkt                        FE86A9       5       5       2   .text       
+     ProbeRS232_RxStoINT8U                   FE86AE      19      25       2   .text       
+     ProbeRS232_RxBufClr                     FE86C7       5       5       2   .text       
+     ProbeRS232_OS_Post                      FE86CC       8       8       2   .text       
+     ProbeRS232_RxTxISRHandler               FE86D4      19      25       2   .text       
+     ProbeRS232_Tx1                          FE86ED       3       3       2   .text       
+     ProbeRS232_TxIntDis                     FE86F0       4       4       2   .text       
+     OSEventNameSet                          FE86F4      5A      90       4   .text       
+     OSInit                                  FE874E      35      53       2   .text       
+     OSIntExit                               FE8783      60      96       4   .text       
+     OSStart                                 FE87E3      25      37       2   .text       
+     OSStatInit                              FE8808      36      54       2   .text       
+     OSTimeTick                              FE883E      A2     162       2   .text       
+     OS_EventTaskRdy                         FE88E0      7D     125       2   .text       
+     OS_EventTaskWait                        FE895D      41      65       2   .text       
+     OS_EventTaskRemove                      FE899E      2E      46       4   .text       
+     OS_EventTaskRemoveMulti                 FE89CC      49      73       2   .text       
+     OS_EventWaitListInit                    FE8A15       F      15       2   .text       
+     OS_InitEventList                        FE8A24      40      64       2   .text       
+     OS_InitMisc                             FE8A64      30      48       2   .text       
+     OS_InitRdyList                          FE8A94      1D      29       2   .text       
+     OS_InitTaskIdle                         FE8AB1      3B      59       2   .text       
+     OS_InitTaskStat                         FE8AEC      3B      59       2   .text       
+     OS_InitTCBList                          FE8B27      49      73       2   .text       
+     OS_MemClr                               FE8B70       D      13      16   .text       
+     OS_Sched                                FE8B7D      51      81      10   .text       
+     OS_SchedNew                             FE8BCE      16      22       6   .text       
+     OS_StrCopy                              FE8BE4      18      24       4   .text       
+     OS_StrLen                               FE8BFC       B      11       4   .text       
+     OS_TaskIdle                             FE8C07      1F      31       3   .text       
+     OS_TaskStat                             FE8C26      7A     122       3   .text       
+     OS_TaskStatStkChk                       FE8CA0      43      67       2   .text       
+     OS_TCBInit                              FE8CE3      F7     247       2   .text       
+     OSInitHookBegin                         FE8DDA       5       5       2   .text       
+     OSInitHookEnd                           FE8DDF       1       1       2   .text       
+     OSTaskCreateHook                        FE8DE0       5       5       2   .text       
+     OSTaskIdleHook                          FE8DE5       5       5       2   .text       
+     OSTaskStatHook                          FE8DEA       5       5       2   .text       
+     OSTaskStkInit                           FE8DEF      54      84       2   .text       
+     OSTaskSwHook                            FE8E43       5       5       6   .text       
+     OSTCBInitHook                           FE8E48       5       5       2   .text       
+     OSTimeTickHook                          FE8E4D      19      25       2   .text       
+     OSDebugInit                             FE8E66       1       1       2   .text       
+     OS_FlagInit                             FE8E67      40      64       2   .text       
+     OS_MemInit                              FE8EA7      47      71       2   .text       
+     OS_QInit                                FE8EEE      33      51       2   .text       
+     OSSemCreate                             FE8F21      42      66       4   .text       
+     OSSemPend                               FE8F63      A7     167       4   .text       
+     OSSemPost                               FE900A      51      81       6   .text       
+     OSTaskCreateExt                         FE905B      B6     182      11   .text       
+     OSTaskNameSet                           FE9111      6D     109      10   .text       
+     OSTaskStkChk                            FE917E      9A     154       2   .text       
+     OSTaskSuspend                           FE9218      7C     124       2   .text       
+     OS_TaskStkClr                           FE9294      26      38       2   .text       
+     OSTimeDly                               FE92BA      40      64      12   .text       
+     OSTimeDlyHMSM                           FE92FA      70     112       6   .text       
+     OSTmrSignal                             FE936A       8       8       2   .text       
+     OSTmr_Init                              FE9372      A0     160       2   .text       
+     OSTmr_InitTask                          FE9412      3B      59       2   .text       
+     OSTmr_Link                              FE944D      84     132       2   .text       
+     OSTmr_Unlink                            FE94D1      44      68       2   .text       
+     OSTmr_Lock                              FE9515      13      19       2   .text       
+     OSTmr_Unlock                            FE9528       8       8       2   .text       
+     OSTmr_Task                              FE9530      9A     154       4   .text       
+     CPU_SR_Save                             FE95CA       5       5       2   cpu_a.s._SEC000000
+     CPU_SR_Restore                          FE95CF       3       3       0   cpu_a.s._SEC000000
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -4854,15 +4857,15 @@ _vect                     USES software_trap10 software_trap12 software_trap14
 XGATE_VectorTable         USES __X_ErrorHandler MyData 
                                 __X_SoftwareTrigger0_Handler 
 __X_SoftwareTrigger0_Handler USES shared_counter 
+Init                      USES _startupData 
 SetupXGATE                USES XGATE_VectorTable _XGISP31 _INT_CFADDR 
                                 _INT_CFDATA0 _XGISPSEL XGATE_STACK_L XGATE_STACK_H _XGMCTL 
                                 _XGSWT 
 main                      USES SetupXGATE BSP_IntDisAll OSInit AppTaskStart 
                                 AppTaskStartStk OSTaskCreateExt STRING.Start.Task.1 
                                 OSTaskNameSet OSStart 
-AppTaskStart              USES BSP_Init OSStatInit AppProbeInit LED_Off LED_On 
-                                OSTimeDlyHMSM 
-Init                      USES _startupData 
+AppTaskStart              USES BSP_Init OSStatInit AppProbeInit All_LED_Off 
+                                OSTimeDlyHMSM LED_On LED_Off 
 App_TaskCreateHook        USES OSProbe_TaskCreateHook 
 App_TaskSwHook            USES OSProbe_TaskSwHook 
 App_TimeTickHook          USES OSProbe_TickHook 
@@ -4876,8 +4879,9 @@ XGATE_Init                USES XGATE_VectorTable _XGISP31 _INT_CFADDR
 PLL_Init                  USES _CLKSEL _PLLCTL _SYNR _REFDV _POSTDIV _CRGFLG 
 BSP_IntDisAll             USES CPU_SR_Save 
 LED_Init                  USES _DDRAB 
-LED_Off                   USES _CASE_CHECKED_BYTE _PORTAB 
 LED_On                    USES _CASE_CHECKED_BYTE _PORTAB 
+LED_Off                   USES _CASE_CHECKED_BYTE _PORTAB 
+All_LED_Off               USES _PORTAB 
 OSTickISR_Init            USES BSP_CPU_ClkFreq _ECT_TSCR2 _BSHL _LDIVU 
                                 OSTickCnts _ECT_TIOS _ECT_TCNT _ECT_TC7 _ECT_TIE 
                                 _ECT_TSCR1 
@@ -5349,16 +5353,18 @@ DEPENDENCY TREE
  |  |  |  |  
  |  |  |  +- ProbeCom_Init       
  |  |  |       
- |  |  +- LED_Off             
+ |  |  +- All_LED_Off         
+ |  |  |    
+ |  |  +- OSTimeDlyHMSM        (see above)
+ |  |  |  
+ |  |  +- LED_On              
  |  |  |  | 
  |  |  |  +- _CASE_CHECKED_BYTE  
  |  |  |       
- |  |  +- LED_On              
- |  |  |  | 
- |  |  |  +- _CASE_CHECKED_BYTE   (see above)
- |  |  |     
- |  |  +- OSTimeDlyHMSM        (see above)
- |  |     
+ |  |  +- LED_Off             
+ |  |     | 
+ |  |     +- _CASE_CHECKED_BYTE   (see above)
+ |  |        
  |  +- OSTaskCreateExt      (see above)
  |  |  
  |  +- OSTaskNameSet        (see above)
@@ -5634,5 +5640,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 9
-Total size of all blocks to be downloaded: 7872
+Total size of all blocks to be downloaded: 7883
 
